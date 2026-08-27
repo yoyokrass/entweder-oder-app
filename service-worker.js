@@ -1,4 +1,4 @@
-const CACHE_NAME = "entweder-oder-v1";
+const CACHE_NAME = "das-oder-das-v2";
 
 const APP_FILES = [
     "./",
