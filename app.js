@@ -763,3 +763,30 @@ menuButton.addEventListener("click", function () {
 // ========================================
 
 loadSavedThemes();
+// ========================================
+// OFFLINE-SERVICE-WORKER
+// ========================================
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function () {
+
+        navigator.serviceWorker
+            .register("./service-worker.js")
+            .then(function () {
+
+                console.log("Offline-Modus ist bereit.");
+
+            })
+            .catch(function (error) {
+
+                console.error(
+                    "Service Worker konnte nicht gestartet werden:",
+                    error
+                );
+
+            });
+
+    });
+
+}
