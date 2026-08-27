@@ -1,0 +1,266 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    overflow: hidden;
+}
+
+
+/* =========================
+   STARTSEITE
+   ========================= */
+
+.topbar {
+    width: 100%;
+    padding: 14px;
+    background-color: white;
+    border-bottom: 1px solid #dddddd;
+}
+
+#addThemeButton {
+    border: none;
+    background: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.theme-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+}
+
+.theme-card {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.theme-cover {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+.theme-name {
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+
+/* =========================
+   SPIEL – HOCHFORMAT
+   ========================= */
+
+#gameScreen {
+    display: none;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.game-image {
+    height: calc((100vh - 44px) / 2);
+    width: 100%;
+    position: relative;
+    background-color: #dddddd;
+    cursor: pointer;
+
+    transition: transform 0.35s ease;
+}
+
+.game-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* MITTLERE LEISTE */
+
+.game-bar {
+    height: 44px;
+    width: 100%;
+
+    background-color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+    z-index: 20;
+
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+}
+
+#menuButton {
+    position: absolute;
+    left: 10px;
+
+    border: none;
+    background: none;
+
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#gameTitle {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+
+/* AUSWAHL-RAND */
+
+.game-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    border: 0 solid white;
+
+    pointer-events: none;
+    z-index: 10;
+}
+
+.game-image.selected::after {
+    border-width: 6px;
+}
+
+
+/* HOCHFORMAT – RAUS */
+
+.top-image.exit {
+    transform: translateY(-100%);
+}
+
+.bottom-image.exit {
+    transform: translateY(100%);
+}
+
+
+/* HOCHFORMAT – REIN */
+
+.top-image.enter-start {
+    transform: translateY(-100%);
+}
+
+.bottom-image.enter-start {
+    transform: translateY(100%);
+}
+
+
+/* =========================
+   QUERFORMAT
+   ========================= */
+
+@media (orientation: landscape) {
+
+    #gameScreen {
+        display: none;
+        flex-direction: row;
+    }
+
+
+    #gameScreen[style*="display: block"] {
+        display: flex !important;
+    }
+
+
+    .game-image {
+        width: calc((100vw - 44px) / 2);
+        height: 100vh;
+    }
+
+
+    /* Leiste wird vertikal */
+
+    .game-bar {
+        width: 44px;
+        height: 100vh;
+
+        flex-shrink: 0;
+
+        border-top: none;
+        border-bottom: none;
+
+        border-left: 1px solid #cccccc;
+        border-right: 1px solid #cccccc;
+    }
+
+
+    /* Menüknopf oben in der Leiste */
+
+    #menuButton {
+        left: 50%;
+        top: 10px;
+
+        transform: translateX(-50%);
+    }
+
+
+    /* Text vertikal */
+
+    #gameTitle {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+
+        font-size: 15px;
+    }
+
+
+    /* QUERFORMAT – RAUS */
+
+    .top-image.exit {
+        transform: translateX(-100%);
+    }
+
+    .bottom-image.exit {
+        transform: translateX(100%);
+    }
+
+
+    /* QUERFORMAT – REIN */
+
+    .top-image.enter-start {
+        transform: translateX(-100%);
+    }
+
+    .bottom-image.enter-start {
+        transform: translateX(100%);
+    }
+
+}
+.theme-card {
+    position: relative;
+}
+
+.theme-options {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+
+    width: 30px;
+    height: 30px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color: rgba(255, 255, 255, 0.85);
+
+    font-size: 20px;
+    line-height: 20px;
+
+    cursor: pointer;
+}

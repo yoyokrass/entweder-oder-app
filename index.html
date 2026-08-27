@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Entweder Oder</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-512.png">
+</head>
+
+<body>
+
+    <!-- STARTSEITE -->
+
+    <header class="topbar">
+        <button id="addThemeButton">
+            ＋ Neues Thema hinzufügen
+        </button>
+
+        <!-- Unsichtbare Ordnerauswahl -->
+        <input
+            type="file"
+            id="folderInput"
+            webkitdirectory
+            multiple
+            hidden
+        >
+    </header>
+
+
+    <!-- Hier fügt JavaScript später die Themen ein -->
+
+    <main class="theme-grid" id="themeGrid">
+    </main>
+
+
+    <!-- SPIELANSICHT -->
+
+    <section id="gameScreen">
+
+        <div class="game-image top-image">
+            <img id="topGameImage" src="" alt="">
+        </div>
+
+
+        <div class="game-bar">
+
+            <button id="menuButton">
+                ☰
+            </button>
+
+            <span id="gameTitle">
+                Entweder Oder
+            </span>
+
+        </div>
+
+
+        <div class="game-image bottom-image">
+            <img id="bottomGameImage" src="" alt="">
+        </div>
+
+    </section>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
