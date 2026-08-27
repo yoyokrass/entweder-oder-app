@@ -1,177 +1,581 @@
+/* ========================================
+   GRUNDEINSTELLUNGEN
+   ======================================== */
+
 * {
     box-sizing: border-box;
 }
 
+html,
 body {
     margin: 0;
+
+    width: 100%;
+    min-height: 100%;
+
     font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    overflow: hidden;
+
+    color: white;
+
+    background-color: #06142f;
+
+    background-image:
+        url("design/background.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-attachment: fixed;
 }
 
 
-/* =========================
+/* ========================================
    STARTSEITE
-   ========================= */
+   ======================================== */
+
+#homeScreen {
+    min-height: 100vh;
+
+    width: 100%;
+
+    overflow-y: auto;
+}
+
+
+/* ========================================
+   OBERER BEREICH
+   ======================================== */
 
 .topbar {
     width: 100%;
-    padding: 14px;
-    background-color: white;
-    border-bottom: 1px solid #dddddd;
+
+    padding:
+        18px
+        14px
+        16px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background:
+        rgba(3, 17, 43, 0.72);
+
+    border-bottom:
+        1px solid
+        rgba(210, 225, 255, 0.35);
 }
+
+
+/* ========================================
+   LOGO AUF STARTSEITE
+   ======================================== */
+
+.home-logo {
+    width: 82px;
+
+    height: 82px;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* ========================================
+   NEUES THEMA
+   ======================================== */
 
 #addThemeButton {
-    border: none;
-    background: none;
+    min-height: 42px;
+
+    padding:
+        9px
+        18px;
+
+    border:
+        2px solid
+        rgba(210, 225, 255, 0.85);
+
+    border-radius: 22px;
+
+    background:
+        rgba(3, 17, 43, 0.82);
+
+    color: white;
+
     font-size: 15px;
+
+    font-weight: bold;
+
     cursor: pointer;
 }
+
+
+#addThemeButton:active {
+    background:
+        rgba(210, 225, 255, 0.18);
+}
+
+
+/* ========================================
+   THEMENRASTER
+   ======================================== */
 
 .theme-grid {
+    width: 100%;
+
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    padding: 12px;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 14px;
+
+    padding: 14px;
+
+    padding-bottom: 30px;
 }
 
+
+/* ========================================
+   THEMENKARTE
+   ======================================== */
+
 .theme-card {
-    background-color: white;
-    border-radius: 10px;
+    position: relative;
+
+    min-width: 0;
+
     overflow: hidden;
+
+    border:
+        3px solid
+        rgba(210, 225, 255, 0.85);
+
+    border-radius: 12px;
+
+    background:
+        rgba(3, 17, 43, 0.9);
+
     cursor: pointer;
 }
+
+
+/* ========================================
+   TITELBILD
+   ======================================== */
 
 .theme-cover {
     width: 100%;
+
     aspect-ratio: 1 / 1;
+
     object-fit: cover;
+
     display: block;
+
+    background:
+        rgba(2, 12, 32, 0.9);
 }
+
+
+/* ========================================
+   THEMENNAME
+   ======================================== */
 
 .theme-name {
-    padding: 10px;
-    text-align: center;
+    min-height: 42px;
+
+    padding:
+        10px
+        36px
+        10px
+        10px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
     font-size: 16px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    overflow-wrap: anywhere;
 }
 
 
-/* =========================
-   SPIEL – HOCHFORMAT
-   ========================= */
+/* ========================================
+   DREI-PUNKTE-BUTTON
+   ======================================== */
+
+.theme-options {
+    position: absolute;
+
+    right: 6px;
+
+    bottom: 6px;
+
+    width: 30px;
+
+    height: 30px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(210, 225, 255, 0.13);
+
+    color: white;
+
+    font-size: 20px;
+
+    line-height: 24px;
+
+    cursor: pointer;
+}
+
+
+/* ========================================
+   SPIELANSICHT
+   ======================================== */
 
 #gameScreen {
     display: none;
-    height: 100vh;
+
     width: 100%;
+
+    height: 100vh;
+
     overflow: hidden;
+
+    background:
+        rgba(2, 12, 32, 0.9);
 }
+
+
+/* ========================================
+   SPIELBILDER
+   ======================================== */
 
 .game-image {
-    height: calc((100vh - 44px) / 2);
     width: 100%;
+
+    height:
+        calc((100vh - 56px) / 2);
+
     position: relative;
-    background-color: #dddddd;
+
+    overflow: hidden;
+
+    background:
+        rgba(2, 12, 32, 0.9);
+
+    /*
+        Dauerhafter Rahmen
+    */
+
+    border:
+        5px solid
+        rgba(210, 225, 255, 0.85);
+
     cursor: pointer;
 
-    transition: transform 0.35s ease;
+    transition:
+        transform 0.35s ease;
 }
+
 
 .game-image img {
     width: 100%;
+
     height: 100%;
-    object-fit: cover;
+
+    /*
+        Ganzes Bild sichtbar.
+        Nichts wird abgeschnitten.
+    */
+
+    object-fit: contain;
+
     display: block;
 }
 
 
-/* MITTLERE LEISTE */
-
-.game-bar {
-    height: 44px;
-    width: 100%;
-
-    background-color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    position: relative;
-    z-index: 20;
-
-    border-top: 1px solid #cccccc;
-    border-bottom: 1px solid #cccccc;
-}
-
-#menuButton {
-    position: absolute;
-    left: 10px;
-
-    border: none;
-    background: none;
-
-    font-size: 20px;
-    cursor: pointer;
-}
-
-#gameTitle {
-    font-size: 15px;
-    font-weight: bold;
-}
-
-
-/* AUSWAHL-RAND */
+/* ========================================
+   WEISSER AUSWAHL-EFFEKT
+   ======================================== */
 
 .game-image::after {
     content: "";
+
     position: absolute;
+
     inset: 0;
 
-    border: 0 solid white;
+    border:
+        0 solid white;
 
     pointer-events: none;
+
     z-index: 10;
 }
 
+
 .game-image.selected::after {
-    border-width: 6px;
+    border:
+        6px solid white;
 }
 
 
-/* HOCHFORMAT – RAUS */
+/* ========================================
+   INFO-BUTTON
+   ======================================== */
+
+.info-button {
+    position: absolute;
+
+    top: 12px;
+
+    right: 12px;
+
+    width: 36px;
+
+    height: 36px;
+
+    padding: 0;
+
+    border:
+        2px solid white;
+
+    border-radius: 50%;
+
+    background:
+        rgba(3, 17, 43, 0.82);
+
+    color: white;
+
+    font-family:
+        Georgia,
+        serif;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    z-index: 15;
+}
+
+
+/* ========================================
+   BILDNAME
+   ======================================== */
+
+.image-info {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 14px;
+
+    transform:
+        translateX(-50%);
+
+    max-width:
+        calc(100% - 40px);
+
+    padding:
+        8px
+        14px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(3, 17, 43, 0.9);
+
+    color: white;
+
+    font-size: 16px;
+
+    text-align: center;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease;
+
+    z-index: 15;
+}
+
+
+.image-info.visible {
+    opacity: 1;
+}
+
+
+/* ========================================
+   MITTLERE LEISTE
+   ======================================== */
+
+.game-bar {
+    width: 100%;
+
+    height: 56px;
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 20;
+}
+
+
+/*
+   Eigene Ebene für leiste.png.
+*/
+
+.bar-background {
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        url("design/leiste.png");
+
+    background-size:
+        100% 100%;
+
+    background-repeat:
+        no-repeat;
+
+    background-position:
+        center;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* ========================================
+   LOGO IN DER LEISTE
+   ======================================== */
+
+#gameLogo {
+    width: 46px;
+
+    height: 46px;
+
+    object-fit: contain;
+
+    display: block;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+
+/* ========================================
+   HAUPTMENÜ-BUTTON
+   ======================================== */
+
+#menuButton {
+    position: absolute;
+
+    left: 10px;
+
+    width: 40px;
+
+    height: 40px;
+
+    padding: 0;
+
+    border: none;
+
+    background: none;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+
+    z-index: 3;
+}
+
+
+/* ========================================
+   HOCHFORMAT
+   RAUS / REIN
+   ======================================== */
 
 .top-image.exit {
-    transform: translateY(-100%);
+    transform:
+        translateY(-100%);
 }
+
 
 .bottom-image.exit {
-    transform: translateY(100%);
+    transform:
+        translateY(100%);
 }
 
-
-/* HOCHFORMAT – REIN */
 
 .top-image.enter-start {
-    transform: translateY(-100%);
+    transform:
+        translateY(-100%);
 }
+
 
 .bottom-image.enter-start {
-    transform: translateY(100%);
+    transform:
+        translateY(100%);
 }
 
 
-/* =========================
+/* ========================================
    QUERFORMAT
-   ========================= */
+   ======================================== */
 
 @media (orientation: landscape) {
 
     #gameScreen {
         display: none;
+
         flex-direction: row;
     }
 
+
+    /*
+        app.js setzt beim Öffnen:
+        display: block
+
+        Im Querformat wandeln wir
+        das automatisch in flex um.
+    */
 
     #gameScreen[style*="display: block"] {
         display: flex !important;
@@ -179,88 +583,119 @@ body {
 
 
     .game-image {
-        width: calc((100vw - 44px) / 2);
+        width:
+            calc((100vw - 56px) / 2);
+
         height: 100vh;
     }
 
 
-    /* Leiste wird vertikal */
+    /* Vertikale Mittelleiste */
 
     .game-bar {
-        width: 44px;
+        width: 56px;
+
         height: 100vh;
 
         flex-shrink: 0;
-
-        border-top: none;
-        border-bottom: none;
-
-        border-left: 1px solid #cccccc;
-        border-right: 1px solid #cccccc;
     }
 
 
-    /* Menüknopf oben in der Leiste */
+    /*
+        Nur die Leisten-Grafik drehen.
+        Logo und Menü bleiben aufrecht.
+    */
+
+    .bar-background {
+        width: 100vh;
+
+        height: 56px;
+
+        left: 50%;
+
+        top: 50%;
+
+        right: auto;
+
+        bottom: auto;
+
+        transform:
+            translate(-50%, -50%)
+            rotate(90deg);
+    }
+
+
+    #gameLogo {
+        width: 42px;
+
+        height: 42px;
+
+        transform: none;
+    }
+
 
     #menuButton {
         left: 50%;
-        top: 10px;
 
-        transform: translateX(-50%);
+        top: 8px;
+
+        transform:
+            translateX(-50%);
     }
 
 
-    /* Text vertikal */
-
-    #gameTitle {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-
-        font-size: 15px;
-    }
-
-
-    /* QUERFORMAT – RAUS */
+    /* Bilder fahren seitlich hinaus */
 
     .top-image.exit {
-        transform: translateX(-100%);
+        transform:
+            translateX(-100%);
     }
+
 
     .bottom-image.exit {
-        transform: translateX(100%);
+        transform:
+            translateX(100%);
     }
 
 
-    /* QUERFORMAT – REIN */
+    /* Neue Bilder kommen seitlich herein */
 
     .top-image.enter-start {
-        transform: translateX(-100%);
+        transform:
+            translateX(-100%);
     }
+
 
     .bottom-image.enter-start {
-        transform: translateX(100%);
+        transform:
+            translateX(100%);
     }
 
 }
-.theme-card {
-    position: relative;
-}
 
-.theme-options {
-    position: absolute;
-    top: 6px;
-    right: 6px;
 
-    width: 30px;
-    height: 30px;
+/* ========================================
+   ETWAS GRÖSSERE BILDSCHIRME
+   ======================================== */
 
-    border: none;
-    border-radius: 50%;
+@media (min-width: 700px) {
 
-    background-color: rgba(255, 255, 255, 0.85);
+    /*
+        Weiterhin zwei Themen nebeneinander,
+        aber nicht absurd breit.
+    */
 
-    font-size: 20px;
-    line-height: 20px;
+    .theme-grid {
+        max-width: 850px;
 
-    cursor: pointer;
+        margin-left: auto;
+
+        margin-right: auto;
+    }
+
+
+    .topbar {
+        padding-top: 22px;
+    }
+
 }

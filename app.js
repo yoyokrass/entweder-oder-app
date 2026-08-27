@@ -1,22 +1,74 @@
-const addThemeButton = document.getElementById("addThemeButton");
-const folderInput = document.getElementById("folderInput");
+const addThemeButton =
+    document.getElementById("addThemeButton");
 
-const topbar = document.querySelector(".topbar");
-const themeGrid = document.getElementById("themeGrid");
+const folderInput =
+    document.getElementById("folderInput");
 
-const gameScreen = document.getElementById("gameScreen");
-const menuButton = document.getElementById("menuButton");
+const homeScreen =
+    document.getElementById("homeScreen");
 
-const topGameImage = document.getElementById("topGameImage");
-const bottomGameImage = document.getElementById("bottomGameImage");
+const topbar =
+    document.querySelector(".topbar");
 
-const topImageArea = document.querySelector(".top-image");
-const bottomImageArea = document.querySelector(".bottom-image");
+const themeGrid =
+    document.getElementById("themeGrid");
 
+
+const gameScreen =
+    document.getElementById("gameScreen");
+
+const menuButton =
+    document.getElementById("menuButton");
+
+
+const topGameImage =
+    document.getElementById("topGameImage");
+
+const bottomGameImage =
+    document.getElementById("bottomGameImage");
+
+
+const topInfoButton =
+    document.getElementById("topInfoButton");
+
+const bottomInfoButton =
+    document.getElementById("bottomInfoButton");
+
+
+const topImageInfo =
+    document.getElementById("topImageInfo");
+
+const bottomImageInfo =
+    document.getElementById("bottomImageInfo");
+
+
+const topImageArea =
+    document.querySelector(".top-image");
+
+const bottomImageArea =
+    document.querySelector(".bottom-image");
+
+
+// ========================================
+// ALLGEMEINE VARIABLEN
+// ========================================
 
 let themes = [];
+
 let currentTheme = null;
-let previousPair = [];
+
+
+/*
+    Hier merken wir uns die zuletzt
+    gezeigten Bilder.
+
+    Ungefähr das letzte Drittel des
+    Bildpools wird vorübergehend gesperrt.
+*/
+
+let recentImages = [];
+
+
 let roundChanging = false;
 
 
@@ -24,7 +76,8 @@ let roundChanging = false;
 // DATENBANK
 // ========================================
 
-const databasePromise = openDatabase();
+const databasePromise =
+    openDatabase();
 
 
 function openDatabase() {
@@ -32,39 +85,55 @@ function openDatabase() {
     return new Promise(function (resolve, reject) {
 
         const request =
-            indexedDB.open("EntwederOderDatabase", 1);
+            indexedDB.open(
+                "EntwederOderDatabase",
+                1
+            );
 
 
-        request.onupgradeneeded = function (event) {
+        request.onupgradeneeded =
+            function (event) {
 
-            const database =
-                event.target.result;
+                const database =
+                    event.target.result;
 
 
-            if (!database.objectStoreNames.contains("themes")) {
+                if (
+                    !database.objectStoreNames.contains(
+                        "themes"
+                    )
+                ) {
 
-                database.createObjectStore(
-                    "themes",
-                    { keyPath: "name" }
+                    database.createObjectStore(
+                        "themes",
+                        {
+                            keyPath: "name"
+                        }
+                    );
+
+                }
+
+            };
+
+
+        request.onsuccess =
+            function (event) {
+
+                resolve(
+                    event.target.result
                 );
 
-            }
-
-        };
+            };
 
 
-        request.onsuccess = function (event) {
+        request.onerror =
+            function () {
 
-            resolve(event.target.result);
+                reject(
+                    request.error
+                );
 
-        };
-
-
-        request.onerror = function () {
-
-            reject(request.error);
-
-        };
+            };
 
     });
 
@@ -84,29 +153,40 @@ async function saveThemeToDatabase(themeData) {
     return new Promise(function (resolve, reject) {
 
         const transaction =
-            database.transaction("themes", "readwrite");
+            database.transaction(
+                "themes",
+                "readwrite"
+            );
 
 
         const store =
-            transaction.objectStore("themes");
+            transaction.objectStore(
+                "themes"
+            );
 
 
         const request =
-            store.put(themeData);
+            store.put(
+                themeData
+            );
 
 
-        request.onsuccess = function () {
+        request.onsuccess =
+            function () {
 
-            resolve();
+                resolve();
 
-        };
+            };
 
 
-        request.onerror = function () {
+        request.onerror =
+            function () {
 
-            reject(request.error);
+                reject(
+                    request.error
+                );
 
-        };
+            };
 
     });
 
@@ -126,29 +206,40 @@ async function deleteThemeFromDatabase(themeName) {
     return new Promise(function (resolve, reject) {
 
         const transaction =
-            database.transaction("themes", "readwrite");
+            database.transaction(
+                "themes",
+                "readwrite"
+            );
 
 
         const store =
-            transaction.objectStore("themes");
+            transaction.objectStore(
+                "themes"
+            );
 
 
         const request =
-            store.delete(themeName);
+            store.delete(
+                themeName
+            );
 
 
-        request.onsuccess = function () {
+        request.onsuccess =
+            function () {
 
-            resolve();
+                resolve();
 
-        };
+            };
 
 
-        request.onerror = function () {
+        request.onerror =
+            function () {
 
-            reject(request.error);
+                reject(
+                    request.error
+                );
 
-        };
+            };
 
     });
 
@@ -156,7 +247,7 @@ async function deleteThemeFromDatabase(themeName) {
 
 
 // ========================================
-// THEMEN LADEN
+// ALLE THEMEN LADEN
 // ========================================
 
 async function loadThemesFromDatabase() {
@@ -168,31 +259,75 @@ async function loadThemesFromDatabase() {
     return new Promise(function (resolve, reject) {
 
         const transaction =
-            database.transaction("themes", "readonly");
+            database.transaction(
+                "themes",
+                "readonly"
+            );
 
 
         const store =
-            transaction.objectStore("themes");
+            transaction.objectStore(
+                "themes"
+            );
 
 
         const request =
             store.getAll();
 
 
-        request.onsuccess = function () {
+        request.onsuccess =
+            function () {
 
-            resolve(request.result);
+                resolve(
+                    request.result
+                );
 
-        };
+            };
 
 
-        request.onerror = function () {
+        request.onerror =
+            function () {
 
-            reject(request.error);
+                reject(
+                    request.error
+                );
 
-        };
+            };
 
     });
+
+}
+
+
+// ========================================
+// DATEINAME AUFBEREITEN
+// ========================================
+
+function cleanImageName(fileName) {
+
+    if (!fileName) {
+
+        return "";
+
+    }
+
+
+    /*
+        Entfernt die Dateiendung.
+
+        Beispiel:
+
+        Mexikanischer Wolf.jpg
+
+        wird zu:
+
+        Mexikanischer Wolf
+    */
+
+    return fileName.replace(
+        /\.[^/.]+$/,
+        ""
+    );
 
 }
 
@@ -203,19 +338,85 @@ async function loadThemesFromDatabase() {
 
 function prepareThemeForUse(storedTheme) {
 
+    const preparedImages =
+        storedTheme.images.map(
+            function (storedImage, index) {
+
+
+                /*
+                    NEUES FORMAT
+
+                    {
+                        file: Bilddatei,
+                        name: "Jaguar"
+                    }
+                */
+
+                if (
+                    storedImage &&
+                    storedImage.file
+                ) {
+
+                    return {
+
+                        url:
+                            URL.createObjectURL(
+                                storedImage.file
+                            ),
+
+                        name:
+                            storedImage.name ||
+                            cleanImageName(
+                                storedImage.file.name
+                            ) ||
+                            "Bild " + (index + 1)
+
+                    };
+
+                }
+
+
+                /*
+                    ALTES FORMAT
+
+                    Alte Themen enthalten
+                    nur die Bilddatei.
+
+                    Dadurch bleiben sie
+                    weiterhin spielbar.
+                */
+
+                return {
+
+                    url:
+                        URL.createObjectURL(
+                            storedImage
+                        ),
+
+                    name:
+                        cleanImageName(
+                            storedImage.name
+                        ) ||
+                        "Bild " + (index + 1)
+
+                };
+
+            }
+        );
+
+
     return {
 
-        name: storedTheme.name,
+        name:
+            storedTheme.name,
 
         cover:
-            URL.createObjectURL(storedTheme.cover),
+            URL.createObjectURL(
+                storedTheme.cover
+            ),
 
         images:
-            storedTheme.images.map(function (imageBlob) {
-
-                return URL.createObjectURL(imageBlob);
-
-            })
+            preparedImages
 
     };
 
@@ -233,11 +434,15 @@ async function reloadThemes() {
 
 
     themes =
-        storedThemes.map(function (storedTheme) {
+        storedThemes.map(
+            function (storedTheme) {
 
-            return prepareThemeForUse(storedTheme);
+                return prepareThemeForUse(
+                    storedTheme
+                );
 
-        });
+            }
+        );
 
 
     renderThemes();
@@ -273,130 +478,196 @@ async function loadSavedThemes() {
 // ORDNER AUSWÄHLEN
 // ========================================
 
-addThemeButton.addEventListener("click", function () {
+addThemeButton.addEventListener(
+    "click",
+    function () {
 
-    folderInput.click();
-
-});
-
-
-folderInput.addEventListener("change", async function () {
-
-    const files =
-        Array.from(folderInput.files);
-
-
-    if (files.length === 0) {
-
-        return;
+        folderInput.click();
 
     }
+);
 
 
-    const firstPath =
-        files[0].webkitRelativePath;
+folderInput.addEventListener(
+    "change",
+    async function () {
 
-
-    const themeName =
-        firstPath.split("/")[0];
-
-
-    const imageFiles =
-        files.filter(function (file) {
-
-            return file.type.startsWith("image/");
-
-        });
-
-
-    const coverFile =
-        imageFiles.find(function (file) {
-
-            const name =
-                file.name.toLowerCase();
-
-
-            return (
-                name === "cover.jpg" ||
-                name === "cover.jpeg" ||
-                name === "cover.png" ||
-                name === "cover.webp"
+        const files =
+            Array.from(
+                folderInput.files
             );
 
-        });
+
+        if (files.length === 0) {
+
+            return;
+
+        }
 
 
-    const gameFiles =
-        imageFiles.filter(function (file) {
+        // --------------------------------
+        // ORDNERNAME = THEMENNAME
+        // --------------------------------
 
-            return file !== coverFile;
+        const firstPath =
+            files[0].webkitRelativePath;
 
-        });
+
+        const themeName =
+            firstPath.split("/")[0];
 
 
-    if (!coverFile) {
+        // --------------------------------
+        // NUR BILDDATEIEN
+        // --------------------------------
 
-        alert(
-            "Der Ordner braucht ein Titelbild namens cover.jpg, cover.jpeg, cover.png oder cover.webp."
-        );
+        const imageFiles =
+            files.filter(
+                function (file) {
+
+                    return file.type.startsWith(
+                        "image/"
+                    );
+
+                }
+            );
+
+
+        // --------------------------------
+        // COVER SUCHEN
+        // --------------------------------
+
+        const coverFile =
+            imageFiles.find(
+                function (file) {
+
+                    const name =
+                        file.name.toLowerCase();
+
+
+                    return (
+                        name === "cover.jpg" ||
+                        name === "cover.jpeg" ||
+                        name === "cover.png" ||
+                        name === "cover.webp"
+                    );
+
+                }
+            );
+
+
+        // --------------------------------
+        // SPIELBILDER
+        // --------------------------------
+
+        const gameFiles =
+            imageFiles.filter(
+                function (file) {
+
+                    return file !== coverFile;
+
+                }
+            );
+
+
+        // --------------------------------
+        // PRÜFUNGEN
+        // --------------------------------
+
+        if (!coverFile) {
+
+            alert(
+                "Der Ordner braucht ein Titelbild namens cover.jpg, cover.jpeg, cover.png oder cover.webp."
+            );
+
+            folderInput.value = "";
+
+            return;
+
+        }
+
+
+        if (gameFiles.length < 2) {
+
+            alert(
+                "Das Thema braucht mindestens zwei Spielbilder."
+            );
+
+            folderInput.value = "";
+
+            return;
+
+        }
+
+
+        // --------------------------------
+        // BILDER + DATEINAMEN SPEICHERN
+        // --------------------------------
+
+        const storedGameImages =
+            gameFiles.map(
+                function (file) {
+
+                    return {
+
+                        file:
+                            file,
+
+                        name:
+                            cleanImageName(
+                                file.name
+                            )
+
+                    };
+
+                }
+            );
+
+
+        const storedTheme = {
+
+            name:
+                themeName,
+
+            cover:
+                coverFile,
+
+            images:
+                storedGameImages
+
+        };
+
+
+        try {
+
+            await saveThemeToDatabase(
+                storedTheme
+            );
+
+
+            await reloadThemes();
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Thema konnte nicht gespeichert werden:",
+                error
+            );
+
+
+            alert(
+                "Das Thema konnte nicht gespeichert werden."
+            );
+
+        }
+
 
         folderInput.value = "";
 
-        return;
-
     }
-
-
-    if (gameFiles.length < 2) {
-
-        alert(
-            "Das Thema braucht mindestens zwei Spielbilder."
-        );
-
-        folderInput.value = "";
-
-        return;
-
-    }
-
-
-    const storedTheme = {
-
-        name: themeName,
-
-        cover: coverFile,
-
-        images: gameFiles
-
-    };
-
-
-    try {
-
-        await saveThemeToDatabase(storedTheme);
-
-        await reloadThemes();
-
-    }
-
-    catch (error) {
-
-        console.error(
-            "Thema konnte nicht gespeichert werden:",
-            error
-        );
-
-
-        alert(
-            "Das Thema konnte nicht gespeichert werden."
-        );
-
-    }
-
-
-    folderInput.value = "";
-
-});
+);
 
 
 // ========================================
@@ -408,122 +679,175 @@ function renderThemes() {
     themeGrid.innerHTML = "";
 
 
-    themes.forEach(function (theme) {
+    themes.forEach(
+        function (theme) {
 
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "theme-card";
-
-
-        const image =
-            document.createElement("img");
-
-
-        image.className =
-            "theme-cover";
-
-        image.src =
-            theme.cover;
-
-        image.alt =
-            theme.name;
-
-
-        const name =
-            document.createElement("div");
-
-
-        name.className =
-            "theme-name";
-
-        name.textContent =
-            theme.name;
-
-
-        // Kleiner Menübutton
-
-        const optionsButton =
-            document.createElement("button");
-
-
-        optionsButton.className =
-            "theme-options";
-
-        optionsButton.textContent =
-            "⋯";
-
-
-        // Klick auf die drei Punkte
-
-        optionsButton.addEventListener("click", async function (event) {
-
-            // Verhindert, dass gleichzeitig
-            // das Thema geöffnet wird
-
-            event.stopPropagation();
-
-
-            const shouldDelete =
-                confirm(
-                    'Thema "' +
-                    theme.name +
-                    '" wirklich löschen?'
+            const card =
+                document.createElement(
+                    "div"
                 );
 
 
-            if (!shouldDelete) {
-
-                return;
-
-            }
+            card.className =
+                "theme-card";
 
 
-            try {
+            // --------------------------------
+            // TITELBILD
+            // --------------------------------
 
-                await deleteThemeFromDatabase(theme.name);
-
-                await reloadThemes();
-
-            }
-
-            catch (error) {
-
-                console.error(
-                    "Thema konnte nicht gelöscht werden:",
-                    error
+            const image =
+                document.createElement(
+                    "img"
                 );
 
-                alert(
-                    "Das Thema konnte nicht gelöscht werden."
+
+            image.className =
+                "theme-cover";
+
+
+            image.src =
+                theme.cover;
+
+
+            image.alt =
+                theme.name;
+
+
+            // --------------------------------
+            // THEMENNAME
+            // --------------------------------
+
+            const name =
+                document.createElement(
+                    "div"
                 );
 
-            }
 
-        });
-
-
-        card.appendChild(image);
-
-        card.appendChild(name);
-
-        card.appendChild(optionsButton);
+            name.className =
+                "theme-name";
 
 
-        // Normales Antippen öffnet das Thema
-
-        card.addEventListener("click", function () {
-
-            openTheme(theme);
-
-        });
+            name.textContent =
+                theme.name;
 
 
-        themeGrid.appendChild(card);
+            // --------------------------------
+            // DREI-PUNKTE-BUTTON
+            // --------------------------------
 
-    });
+            const optionsButton =
+                document.createElement(
+                    "button"
+                );
+
+
+            optionsButton.className =
+                "theme-options";
+
+
+            optionsButton.textContent =
+                "⋯";
+
+
+            optionsButton.addEventListener(
+                "click",
+                async function (event) {
+
+                    /*
+                        Verhindert, dass beim
+                        Drücken der drei Punkte
+                        das Thema gestartet wird.
+                    */
+
+                    event.stopPropagation();
+
+
+                    const shouldDelete =
+                        confirm(
+                            'Thema "' +
+                            theme.name +
+                            '" wirklich löschen?'
+                        );
+
+
+                    if (!shouldDelete) {
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        await deleteThemeFromDatabase(
+                            theme.name
+                        );
+
+
+                        await reloadThemes();
+
+                    }
+
+                    catch (error) {
+
+                        console.error(
+                            "Thema konnte nicht gelöscht werden:",
+                            error
+                        );
+
+
+                        alert(
+                            "Das Thema konnte nicht gelöscht werden."
+                        );
+
+                    }
+
+                }
+            );
+
+
+            // --------------------------------
+            // KARTE ZUSAMMENBAUEN
+            // --------------------------------
+
+            card.appendChild(
+                image
+            );
+
+
+            card.appendChild(
+                name
+            );
+
+
+            card.appendChild(
+                optionsButton
+            );
+
+
+            // --------------------------------
+            // THEMA ÖFFNEN
+            // --------------------------------
+
+            card.addEventListener(
+                "click",
+                function () {
+
+                    openTheme(
+                        theme
+                    );
+
+                }
+            );
+
+
+            themeGrid.appendChild(
+                card
+            );
+
+        }
+    );
 
 }
 
@@ -537,22 +861,124 @@ function openTheme(theme) {
     currentTheme =
         theme;
 
-    previousPair =
+
+    /*
+        Verlauf beim Start eines
+        Themas zurücksetzen.
+    */
+
+    recentImages =
         [];
 
 
-    topbar.style.display =
-        "none";
+    /*
+        Eventuell noch sichtbare
+        Bildinformationen schließen.
+    */
 
-    themeGrid.style.display =
-        "none";
+    topImageInfo.classList.remove(
+        "visible"
+    );
 
+    bottomImageInfo.classList.remove(
+        "visible"
+    );
+
+
+    homeScreen.style.display =
+    "none";
 
     gameScreen.style.display =
-        "block";
+    "block";
 
 
     showRandomPair();
+
+}
+
+
+// ========================================
+// GRÖSSE DER WIEDERHOLUNGSSPERRE
+// ========================================
+
+function getHistoryLimit() {
+
+    if (!currentTheme) {
+
+        return 0;
+
+    }
+
+
+    const imageCount =
+        currentTheme.images.length;
+
+
+    /*
+        Ungefähr ein Drittel.
+
+        Beispiele:
+
+        20 Bilder  -> 7
+        30 Bilder  -> 10
+        54 Bilder  -> 18
+        100 Bilder -> 34
+    */
+
+    let limit =
+        Math.ceil(
+            imageCount / 3
+        );
+
+
+    /*
+        Mindestens zwei Bilder müssen
+        immer außerhalb der Sperre bleiben.
+    */
+
+    limit =
+        Math.min(
+            limit,
+            imageCount - 2
+        );
+
+
+    return Math.max(
+        0,
+        limit
+    );
+
+}
+
+
+// ========================================
+// BILD ZUM VERLAUF HINZUFÜGEN
+// ========================================
+
+function addImageToHistory(image) {
+
+    recentImages.push(
+        image.url
+    );
+
+
+    const historyLimit =
+        getHistoryLimit();
+
+
+    /*
+        Nur die letzten X Bilder
+        in der Sperrliste behalten.
+    */
+
+    while (
+        recentImages.length >
+        historyLimit
+    ) {
+
+        recentImages.shift();
+
+    }
 
 }
 
@@ -567,21 +993,56 @@ function showRandomPair() {
         currentTheme.images;
 
 
+    // ------------------------------------
+    // GESPERRTE BILDER AUSSCHLIESSEN
+    // ------------------------------------
+
     let availableImages =
-        images.filter(function (image) {
+        images.filter(
+            function (image) {
 
-            return !previousPair.includes(image);
+                return !recentImages.includes(
+                    image.url
+                );
 
-        });
+            }
+        );
 
 
-    if (availableImages.length < 2) {
+    /*
+        Sicherheitsnetz:
+
+        Falls aus irgendeinem Grund weniger
+        als zwei Bilder verfügbar sind,
+        geben wir die ältesten gesperrten
+        Bilder wieder frei.
+    */
+
+    while (
+        availableImages.length < 2 &&
+        recentImages.length > 0
+    ) {
+
+        recentImages.shift();
+
 
         availableImages =
-            [...images];
+            images.filter(
+                function (image) {
+
+                    return !recentImages.includes(
+                        image.url
+                    );
+
+                }
+            );
 
     }
 
+
+    // ------------------------------------
+    // ERSTES BILD
+    // ------------------------------------
 
     const firstIndex =
         Math.floor(
@@ -591,15 +1052,26 @@ function showRandomPair() {
 
 
     const firstImage =
-        availableImages[firstIndex];
+        availableImages[
+            firstIndex
+        ];
 
+
+    // ------------------------------------
+    // ZWEITES BILD
+    // ------------------------------------
 
     const remainingImages =
-        availableImages.filter(function (image) {
+        availableImages.filter(
+            function (image) {
 
-            return image !== firstImage;
+                return (
+                    image.url !==
+                    firstImage.url
+                );
 
-        });
+            }
+        );
 
 
     const secondIndex =
@@ -610,20 +1082,63 @@ function showRandomPair() {
 
 
     const secondImage =
-        remainingImages[secondIndex];
+        remainingImages[
+            secondIndex
+        ];
 
+
+    // ------------------------------------
+    // BILDER ANZEIGEN
+    // ------------------------------------
 
     topGameImage.src =
-        firstImage;
+        firstImage.url;
+
 
     bottomGameImage.src =
-        secondImage;
+        secondImage.url;
 
 
-    previousPair = [
-        firstImage,
+    // ------------------------------------
+    // BILDNAMEN HINTERLEGEN
+    // ------------------------------------
+
+    topGameImage.dataset.imageName =
+        firstImage.name;
+
+
+    bottomGameImage.dataset.imageName =
+        secondImage.name;
+
+
+    /*
+        Falls bei der vorherigen Runde
+        ein Name sichtbar war, wird er
+        jetzt automatisch geschlossen.
+    */
+
+    topImageInfo.classList.remove(
+        "visible"
+    );
+
+
+    bottomImageInfo.classList.remove(
+        "visible"
+    );
+
+
+    // ------------------------------------
+    // BILDER IN VERLAUF AUFNEHMEN
+    // ------------------------------------
+
+    addImageToHistory(
+        firstImage
+    );
+
+
+    addImageToHistory(
         secondImage
-    ];
+    );
 
 }
 
@@ -645,74 +1160,149 @@ function selectImage(selectedArea) {
         true;
 
 
-    selectedArea.classList.add("selected");
+    /*
+        Falls ein Info-Name geöffnet ist,
+        schließen wir ihn.
+    */
+
+    topImageInfo.classList.remove(
+        "visible"
+    );
 
 
-    // 0,5 Sekunden Auswahl
-
-    setTimeout(function () {
-
-        selectedArea.classList.remove("selected");
+    bottomImageInfo.classList.remove(
+        "visible"
+    );
 
 
-        topImageArea.classList.add("exit");
+    // ------------------------------------
+    // AUSWAHL-RAND
+    // ------------------------------------
 
-        bottomImageArea.classList.add("exit");
-
-
-        // Bilder fahren 0,35 Sekunden raus
-
-        setTimeout(function () {
-
-
-            // Danach 0,5 Sekunden Pause
-
-            setTimeout(function () {
+    selectedArea.classList.add(
+        "selected"
+    );
 
 
-                showRandomPair();
+    /*
+        0,5 Sekunden Auswahl anzeigen.
+    */
+
+    setTimeout(
+        function () {
+
+            selectedArea.classList.remove(
+                "selected"
+            );
 
 
-                topImageArea.classList.remove("exit");
+            // ----------------------------
+            // BILDER FAHREN HINAUS
+            // ----------------------------
 
-                bottomImageArea.classList.remove("exit");
-
-
-                topImageArea.classList.add("enter-start");
-
-                bottomImageArea.classList.add("enter-start");
-
-
-                requestAnimationFrame(function () {
-
-                    requestAnimationFrame(function () {
+            topImageArea.classList.add(
+                "exit"
+            );
 
 
-                        topImageArea.classList.remove("enter-start");
-
-                        bottomImageArea.classList.remove("enter-start");
-
-
-                        setTimeout(function () {
-
-                            roundChanging =
-                                false;
-
-                        }, 350);
+            bottomImageArea.classList.add(
+                "exit"
+            );
 
 
-                    });
+            /*
+                0,35 Sekunden
+                Ausfahranimation.
+            */
 
-                });
-
-
-            }, 500);
-
-
-        }, 350);
+            setTimeout(
+                function () {
 
 
-    }, 500);
+                    /*
+                        Danach 0,5 Sekunden
+                        Pause.
+                    */
+
+                    setTimeout(
+                        function () {
+
+
+                            // ----------------
+                            // NEUES BILDPAAR
+                            // ----------------
+
+                            showRandomPair();
+
+
+                            topImageArea.classList.remove(
+                                "exit"
+                            );
+
+
+                            bottomImageArea.classList.remove(
+                                "exit"
+                            );
+
+
+                            topImageArea.classList.add(
+                                "enter-start"
+                            );
+
+
+                            bottomImageArea.classList.add(
+                                "enter-start"
+                            );
+
+
+                            requestAnimationFrame(
+                                function () {
+
+                                    requestAnimationFrame(
+                                        function () {
+
+
+                                            // ----------------
+                                            // BILDER FAHREN REIN
+                                            // ----------------
+
+                                            topImageArea.classList.remove(
+                                                "enter-start"
+                                            );
+
+
+                                            bottomImageArea.classList.remove(
+                                                "enter-start"
+                                            );
+
+
+                                            setTimeout(
+                                                function () {
+
+                                                    roundChanging =
+                                                        false;
+
+                                                },
+                                                350
+                                            );
+
+                                        }
+                                    );
+
+                                }
+                            );
+
+                        },
+                        500
+                    );
+
+                },
+                350
+            );
+
+        },
+        500
+    );
 
 }
 
@@ -721,72 +1311,191 @@ function selectImage(selectedArea) {
 // BILDER ANTIPPEN
 // ========================================
 
-topImageArea.addEventListener("click", function () {
+topImageArea.addEventListener(
+    "click",
+    function () {
 
-    selectImage(topImageArea);
+        selectImage(
+            topImageArea
+        );
 
-});
+    }
+);
 
 
-bottomImageArea.addEventListener("click", function () {
+bottomImageArea.addEventListener(
+    "click",
+    function () {
 
-    selectImage(bottomImageArea);
+        selectImage(
+            bottomImageArea
+        );
 
-});
+    }
+);
+
+
+// ========================================
+// BILDINFORMATION
+// ========================================
+
+function showImageInfo(
+    imageElement,
+    infoElement
+) {
+
+    const imageName =
+        imageElement.dataset.imageName;
+
+
+    if (!imageName) {
+
+        return;
+
+    }
+
+
+    infoElement.textContent =
+        imageName;
+
+
+    /*
+        Bei erneutem Drücken auf i
+        verschwindet der Name wieder.
+    */
+
+    infoElement.classList.toggle(
+        "visible"
+    );
+
+}
+
+
+// ========================================
+// OBERER INFO-BUTTON
+// ========================================
+
+topInfoButton.addEventListener(
+    "click",
+    function (event) {
+
+        /*
+            Sehr wichtig:
+
+            Der Klick auf i darf NICHT
+            gleichzeitig das Bild auswählen.
+        */
+
+        event.stopPropagation();
+
+
+        showImageInfo(
+            topGameImage,
+            topImageInfo
+        );
+
+    }
+);
+
+
+// ========================================
+// UNTERER INFO-BUTTON
+// ========================================
+
+bottomInfoButton.addEventListener(
+    "click",
+    function (event) {
+
+        event.stopPropagation();
+
+
+        showImageInfo(
+            bottomGameImage,
+            bottomImageInfo
+        );
+
+    }
+);
 
 
 // ========================================
 // HAUPTMENÜ
 // ========================================
 
-menuButton.addEventListener("click", function () {
+menuButton.addEventListener(
+    "click",
+    function () {
 
     gameScreen.style.display =
-        "none";
+    "none";
+
+    homeScreen.style.display =
+    "block";
 
 
-    topbar.style.display =
-        "block";
-
-    themeGrid.style.display =
-        "grid";
+        currentTheme =
+            null;
 
 
-    currentTheme =
-        null;
+        recentImages =
+            [];
 
-});
+
+        topImageInfo.classList.remove(
+            "visible"
+        );
+
+
+        bottomImageInfo.classList.remove(
+            "visible"
+        );
+
+    }
+);
 
 
 // ========================================
-// START
+// APP STARTEN
 // ========================================
 
 loadSavedThemes();
+
+
 // ========================================
 // OFFLINE-SERVICE-WORKER
 // ========================================
 
 if ("serviceWorker" in navigator) {
 
-    window.addEventListener("load", function () {
+    window.addEventListener(
+        "load",
+        function () {
 
-        navigator.serviceWorker
-            .register("./service-worker.js")
-            .then(function () {
+            navigator.serviceWorker
+                .register(
+                    "./service-worker.js"
+                )
+                .then(
+                    function () {
 
-                console.log("Offline-Modus ist bereit.");
+                        console.log(
+                            "Offline-Modus ist bereit."
+                        );
 
-            })
-            .catch(function (error) {
+                    }
+                )
+                .catch(
+                    function (error) {
 
-                console.error(
-                    "Service Worker konnte nicht gestartet werden:",
-                    error
+                        console.error(
+                            "Service Worker konnte nicht gestartet werden:",
+                            error
+                        );
+
+                    }
                 );
 
-            });
-
-    });
+        }
+    );
 
 }

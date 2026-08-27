@@ -1,10 +1,10 @@
 {
-  "name": "Entweder Oder",
-  "short_name": "Entweder Oder",
+  "name": "Das oder Das",
+  "short_name": "Das oder Das",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f2f2f2",
-  "theme_color": "#ffffff",
+  "background_color": "#06142f",
+  "theme_color": "#06142f",
   "icons": [
     {
       "src": "icons/icon-512.png",

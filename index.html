@@ -7,63 +7,135 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Entweder Oder</title>
+    <title>Das oder Das</title>
 
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="icons/apple-touch-icon.png">
 </head>
 
 <body>
 
-    <!-- STARTSEITE -->
+    <!-- =========================
+         STARTSEITE
+         ========================= -->
 
-    <header class="topbar">
-        <button id="addThemeButton">
-            ＋ Neues Thema hinzufügen
-        </button>
+    <div id="homeScreen">
 
-        <!-- Unsichtbare Ordnerauswahl -->
-        <input
-            type="file"
-            id="folderInput"
-            webkitdirectory
-            multiple
-            hidden
-        >
-    </header>
+        <header class="topbar">
+
+            <img
+                class="home-logo"
+                src="design/logo.png"
+                alt="Das oder Das"
+            >
+
+            <button
+                id="addThemeButton"
+                type="button">
+                ＋ Neues Thema
+            </button>
+
+            <input
+                type="file"
+                id="folderInput"
+                webkitdirectory
+                multiple
+                hidden
+            >
+
+        </header>
 
 
-    <!-- Hier fügt JavaScript später die Themen ein -->
+        <main
+            class="theme-grid"
+            id="themeGrid">
+        </main>
 
-    <main class="theme-grid" id="themeGrid">
-    </main>
+    </div>
 
 
-    <!-- SPIELANSICHT -->
+    <!-- =========================
+         SPIELANSICHT
+         ========================= -->
 
     <section id="gameScreen">
 
+
+        <!-- OBERES BILD -->
+
         <div class="game-image top-image">
-            <img id="topGameImage" src="" alt="">
+
+            <img
+                id="topGameImage"
+                src=""
+                alt=""
+            >
+
+            <button
+                class="info-button"
+                id="topInfoButton"
+                type="button"
+                aria-label="Bildinformation anzeigen">
+                i
+            </button>
+
+            <div
+                class="image-info"
+                id="topImageInfo">
+            </div>
+
         </div>
 
+
+        <!-- MITTLERE LEISTE -->
 
         <div class="game-bar">
 
-            <button id="menuButton">
+            <div class="bar-background"></div>
+
+            <button
+                id="menuButton"
+                type="button"
+                aria-label="Hauptmenü">
                 ☰
             </button>
 
-            <span id="gameTitle">
-                Entweder Oder
-            </span>
+            <img
+                id="gameLogo"
+                src="design/logo.png"
+                alt="Das oder Das"
+            >
 
         </div>
 
 
+        <!-- UNTERES BILD -->
+
         <div class="game-image bottom-image">
-            <img id="bottomGameImage" src="" alt="">
+
+            <img
+                id="bottomGameImage"
+                src=""
+                alt=""
+            >
+
+            <button
+                class="info-button"
+                id="bottomInfoButton"
+                type="button"
+                aria-label="Bildinformation anzeigen">
+                i
+            </button>
+
+            <div
+                class="image-info"
+                id="bottomImageInfo">
+            </div>
+
         </div>
 
     </section>
