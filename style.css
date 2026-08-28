@@ -1,7 +1,3 @@
-/* ========================================
-   GRUNDEINSTELLUNGEN
-   ======================================== */
-
 * {
     box-sizing: border-box;
 }
@@ -9,143 +5,200 @@
 html,
 body {
     margin: 0;
-
     width: 100%;
     min-height: 100%;
-
     font-family: Arial, sans-serif;
-
     color: white;
 
     background-color: #06142f;
-
-    background-image:
-        url("design/background.png");
-
+    background-image: url("design/background.png");
     background-size: cover;
-
     background-position: center;
-
     background-attachment: fixed;
 }
 
 
-/* ========================================
-   STARTSEITE
-   ======================================== */
+/* =========================================
+   HAUPTMENÜ
+   ========================================= */
 
-#homeScreen {
+#mainMenu {
+    width: 100%;
     min-height: 100vh;
 
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-    overflow-y: auto;
+    padding: 30px 20px;
 }
 
+.main-logo {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    display: block;
 
-/* ========================================
-   OBERER BEREICH
-   ======================================== */
+    margin-bottom: 38px;
+}
 
-.topbar {
+.main-menu-buttons {
     width: 100%;
-
-    padding:
-        18px
-        14px
-        16px;
+    max-width: 360px;
 
     display: flex;
-
     flex-direction: column;
-
-    align-items: center;
-
-    gap: 12px;
-
-    background:
-        rgba(3, 17, 43, 0.72);
-
-    border-bottom:
-        1px solid
-        rgba(210, 225, 255, 0.35);
+    gap: 16px;
 }
 
+.main-menu-button {
+    width: 100%;
+    min-height: 58px;
 
-/* ========================================
-   LOGO AUF STARTSEITE
-   ======================================== */
+    padding: 12px 20px;
 
-.home-logo {
-    width: 82px;
+    border: 3px solid rgba(210, 225, 255, 0.85);
+    border-radius: 30px;
 
-    height: 82px;
-
-    object-fit: contain;
-
-    display: block;
-}
-
-
-/* ========================================
-   NEUES THEMA
-   ======================================== */
-
-#addThemeButton {
-    min-height: 42px;
-
-    padding:
-        9px
-        18px;
-
-    border:
-        2px solid
-        rgba(210, 225, 255, 0.85);
-
-    border-radius: 22px;
-
-    background:
-        rgba(3, 17, 43, 0.82);
+    background: rgba(3, 17, 43, 0.86);
 
     color: white;
-
-    font-size: 15px;
-
+    font-size: 19px;
     font-weight: bold;
 
     cursor: pointer;
 }
 
+.main-menu-button:active {
+    background: rgba(210, 225, 255, 0.18);
+}
 
-#addThemeButton:active {
-    background:
-        rgba(210, 225, 255, 0.18);
+.secondary-button {
+    margin-top: 14px;
+    font-size: 16px;
 }
 
 
-/* ========================================
-   THEMENRASTER
-   ======================================== */
+/* =========================================
+   THEMENAUSWAHL + THEMEN VERWALTEN
+   ========================================= */
+
+#themeSelection,
+#themeManagement {
+    display: none;
+
+    width: 100%;
+    min-height: 100vh;
+
+    overflow-y: auto;
+}
+
+.selection-header {
+    position: relative;
+
+    width: 100%;
+    min-height: 74px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 65px;
+
+    background: rgba(3, 17, 43, 0.72);
+
+    border-bottom:
+        1px solid rgba(210, 225, 255, 0.35);
+}
+
+.selection-header h1 {
+    margin: 0;
+
+    color: white;
+    font-size: 21px;
+    text-align: center;
+}
+
+.back-button {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 2px solid rgba(210, 225, 255, 0.85);
+    border-radius: 50%;
+
+    background: rgba(3, 17, 43, 0.82);
+
+    color: white;
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.back-button:active {
+    background: rgba(210, 225, 255, 0.18);
+}
+
+
+/* =========================================
+   NEUES THEMA
+   ========================================= */
+
+.add-theme-area {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+
+    padding: 18px 14px 4px;
+}
+
+#addThemeButton {
+    min-height: 44px;
+
+    padding: 9px 20px;
+
+    border: 2px solid rgba(210, 225, 255, 0.85);
+    border-radius: 24px;
+
+    background: rgba(3, 17, 43, 0.82);
+
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+#addThemeButton:active {
+    background: rgba(210, 225, 255, 0.18);
+}
+
+
+/* =========================================
+   THEMEN-KACHELN
+   ========================================= */
 
 .theme-grid {
     width: 100%;
 
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 
     gap: 14px;
 
     padding: 14px;
-
     padding-bottom: 30px;
 }
-
-
-/* ========================================
-   THEMENKARTE
-   ======================================== */
 
 .theme-card {
     position: relative;
@@ -154,22 +207,13 @@ body {
 
     overflow: hidden;
 
-    border:
-        3px solid
-        rgba(210, 225, 255, 0.85);
-
+    border: 3px solid rgba(210, 225, 255, 0.85);
     border-radius: 12px;
 
-    background:
-        rgba(3, 17, 43, 0.9);
+    background: rgba(3, 17, 43, 0.9);
 
     cursor: pointer;
 }
-
-
-/* ========================================
-   TITELBILD
-   ======================================== */
 
 .theme-cover {
     width: 100%;
@@ -177,37 +221,23 @@ body {
     aspect-ratio: 1 / 1;
 
     object-fit: cover;
-
     display: block;
 
-    background:
-        rgba(2, 12, 32, 0.9);
+    background: rgba(2, 12, 32, 0.9);
 }
-
-
-/* ========================================
-   THEMENNAME
-   ======================================== */
 
 .theme-name {
     min-height: 42px;
 
-    padding:
-        10px
-        36px
-        10px
-        10px;
+    padding: 10px;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     color: white;
 
     font-size: 16px;
-
     font-weight: bold;
 
     text-align: center;
@@ -216,99 +246,68 @@ body {
 }
 
 
-/* ========================================
-   DREI-PUNKTE-BUTTON
-   ======================================== */
+/* Löschen-Knopf nur in Themen verwalten */
 
 .theme-options {
     position: absolute;
 
     right: 6px;
-
     bottom: 6px;
 
     width: 30px;
-
     height: 30px;
 
     padding: 0;
 
     border: none;
-
     border-radius: 50%;
 
-    background:
-        rgba(210, 225, 255, 0.13);
+    background: rgba(210, 225, 255, 0.13);
 
     color: white;
 
     font-size: 20px;
-
     line-height: 24px;
 
     cursor: pointer;
 }
 
 
-/* ========================================
-   SPIELANSICHT
-   ======================================== */
+/* =========================================
+   SPIEL
+   ========================================= */
 
 #gameScreen {
     display: none;
 
     width: 100%;
-
     height: 100vh;
 
     overflow: hidden;
 
-    background:
-        rgba(2, 12, 32, 0.9);
+    background: rgba(2, 12, 32, 0.9);
 }
-
-
-/* ========================================
-   SPIELBILDER
-   ======================================== */
 
 .game-image {
     width: 100%;
-
-    height:
-        calc((100vh - 56px) / 2);
+    height: calc((100vh - 56px) / 2);
 
     position: relative;
 
     overflow: hidden;
 
-    background:
-        rgba(2, 12, 32, 0.9);
+    background: rgba(2, 12, 32, 0.9);
 
-    /*
-        Dauerhafter Rahmen
-    */
-
-    border:
-        5px solid
-        rgba(210, 225, 255, 0.85);
+    border: 5px solid rgba(210, 225, 255, 0.85);
 
     cursor: pointer;
 
-    transition:
-        transform 0.35s ease;
+    transition: transform 0.35s ease;
 }
-
 
 .game-image img {
     width: 100%;
-
     height: 100%;
-
-    /*
-        Ganzes Bild sichtbar.
-        Nichts wird abgeschnitten.
-    */
 
     object-fit: contain;
 
@@ -316,65 +315,50 @@ body {
 }
 
 
-/* ========================================
-   WEISSER AUSWAHL-EFFEKT
-   ======================================== */
+/* Weißer Auswahlrahmen */
 
 .game-image::after {
     content: "";
 
     position: absolute;
-
     inset: 0;
 
-    border:
-        0 solid white;
+    border: 0 solid white;
 
     pointer-events: none;
 
     z-index: 10;
 }
 
-
 .game-image.selected::after {
-    border:
-        6px solid white;
+    border: 6px solid white;
 }
 
 
-/* ========================================
+/* =========================================
    INFO-BUTTON
-   ======================================== */
+   ========================================= */
 
 .info-button {
     position: absolute;
 
     top: 12px;
-
     right: 12px;
 
     width: 36px;
-
     height: 36px;
 
     padding: 0;
 
-    border:
-        2px solid white;
-
+    border: 2px solid white;
     border-radius: 50%;
 
-    background:
-        rgba(3, 17, 43, 0.82);
+    background: rgba(3, 17, 43, 0.82);
 
     color: white;
 
-    font-family:
-        Georgia,
-        serif;
-
+    font-family: Georgia, serif;
     font-size: 20px;
-
     font-weight: bold;
 
     cursor: pointer;
@@ -382,110 +366,75 @@ body {
     z-index: 15;
 }
 
-
-/* ========================================
-   BILDNAME
-   ======================================== */
-
 .image-info {
     position: absolute;
 
     left: 50%;
-
     bottom: 14px;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
-    max-width:
-        calc(100% - 40px);
+    max-width: calc(100% - 40px);
 
-    padding:
-        8px
-        14px;
+    padding: 8px 14px;
 
     border-radius: 8px;
 
-    background:
-        rgba(3, 17, 43, 0.9);
+    background: rgba(3, 17, 43, 0.9);
 
     color: white;
 
     font-size: 16px;
-
     text-align: center;
 
     opacity: 0;
 
     pointer-events: none;
 
-    transition:
-        opacity 0.2s ease;
+    transition: opacity 0.2s ease;
 
     z-index: 15;
 }
-
 
 .image-info.visible {
     opacity: 1;
 }
 
 
-/* ========================================
-   MITTLERE LEISTE
-   ======================================== */
+/* =========================================
+   MITTLERE SPIELLEISTE
+   ========================================= */
 
 .game-bar {
     width: 100%;
-
     height: 56px;
 
     position: relative;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     z-index: 20;
 }
-
-
-/*
-   Eigene Ebene für leiste.png.
-*/
 
 .bar-background {
     position: absolute;
 
     inset: 0;
 
-    background-image:
-        url("design/leiste.png");
-
-    background-size:
-        100% 100%;
-
-    background-repeat:
-        no-repeat;
-
-    background-position:
-        center;
+    background-image: url("design/leiste.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 
     pointer-events: none;
 
     z-index: 0;
 }
 
-
-/* ========================================
-   LOGO IN DER LEISTE
-   ======================================== */
-
 #gameLogo {
     width: 46px;
-
     height: 46px;
 
     object-fit: contain;
@@ -497,18 +446,12 @@ body {
     z-index: 2;
 }
 
-
-/* ========================================
-   HAUPTMENÜ-BUTTON
-   ======================================== */
-
 #menuButton {
     position: absolute;
 
     left: 10px;
 
     width: 40px;
-
     height: 40px;
 
     padding: 0;
@@ -527,96 +470,62 @@ body {
 }
 
 
-/* ========================================
-   HOCHFORMAT
-   RAUS / REIN
-   ======================================== */
+/* =========================================
+   SPIEL-ANIMATION
+   ========================================= */
 
 .top-image.exit {
-    transform:
-        translateY(-100%);
+    transform: translateY(-100%);
 }
-
 
 .bottom-image.exit {
-    transform:
-        translateY(100%);
+    transform: translateY(100%);
 }
-
 
 .top-image.enter-start {
-    transform:
-        translateY(-100%);
+    transform: translateY(-100%);
 }
-
 
 .bottom-image.enter-start {
-    transform:
-        translateY(100%);
+    transform: translateY(100%);
 }
 
 
-/* ========================================
+/* =========================================
    QUERFORMAT
-   ======================================== */
+   ========================================= */
 
 @media (orientation: landscape) {
 
     #gameScreen {
         display: none;
-
         flex-direction: row;
     }
 
-
-    /*
-        app.js setzt beim Öffnen:
-        display: block
-
-        Im Querformat wandeln wir
-        das automatisch in flex um.
-    */
-
-    #gameScreen[style*="display: block"] {
+    #gameScreen.game-visible {
         display: flex !important;
     }
 
-
     .game-image {
-        width:
-            calc((100vw - 56px) / 2);
-
+        width: calc((100vw - 56px) / 2);
         height: 100vh;
     }
 
-
-    /* Vertikale Mittelleiste */
-
     .game-bar {
         width: 56px;
-
         height: 100vh;
 
         flex-shrink: 0;
     }
 
-
-    /*
-        Nur die Leisten-Grafik drehen.
-        Logo und Menü bleiben aufrecht.
-    */
-
     .bar-background {
         width: 100vh;
-
         height: 56px;
 
         left: 50%;
-
         top: 50%;
 
         right: auto;
-
         bottom: auto;
 
         transform:
@@ -624,78 +533,251 @@ body {
             rotate(90deg);
     }
 
-
     #gameLogo {
         width: 42px;
-
         height: 42px;
 
         transform: none;
     }
 
-
     #menuButton {
         left: 50%;
-
         top: 8px;
 
-        transform:
-            translateX(-50%);
+        transform: translateX(-50%);
     }
-
-
-    /* Bilder fahren seitlich hinaus */
 
     .top-image.exit {
-        transform:
-            translateX(-100%);
+        transform: translateX(-100%);
     }
-
 
     .bottom-image.exit {
-        transform:
-            translateX(100%);
+        transform: translateX(100%);
     }
-
-
-    /* Neue Bilder kommen seitlich herein */
 
     .top-image.enter-start {
-        transform:
-            translateX(-100%);
+        transform: translateX(-100%);
     }
-
 
     .bottom-image.enter-start {
-        transform:
-            translateX(100%);
+        transform: translateX(100%);
     }
-
 }
 
 
-/* ========================================
-   ETWAS GRÖSSERE BILDSCHIRME
-   ======================================== */
+/* =========================================
+   GRÖSSERE BILDSCHIRME
+   ========================================= */
 
 @media (min-width: 700px) {
-
-    /*
-        Weiterhin zwei Themen nebeneinander,
-        aber nicht absurd breit.
-    */
 
     .theme-grid {
         max-width: 850px;
 
         margin-left: auto;
-
         margin-right: auto;
     }
 
+    .main-logo {
+        width: 150px;
+        height: 150px;
+    }
+}
+/* =========================================
+   ELIMINATION – HOCHFORMAT
+   ========================================= */
 
-    .topbar {
-        padding-top: 22px;
+.elimination-exit-top {
+    transform: translateY(-100%);
+}
+
+.elimination-exit-bottom {
+    transform: translateY(100%);
+}
+
+.elimination-enter-top {
+    transform: translateY(-100%);
+}
+
+.elimination-enter-bottom {
+    transform: translateY(100%);
+}
+
+
+/* =========================================
+   ELIMINATION – QUERFORMAT
+   ========================================= */
+
+@media (orientation: landscape) {
+
+    .elimination-exit-top {
+        transform: translateX(-100%);
     }
 
+    .elimination-exit-bottom {
+        transform: translateX(100%);
+    }
+
+    .elimination-enter-top {
+        transform: translateX(-100%);
+    }
+
+    .elimination-enter-bottom {
+        transform: translateX(100%);
+    }
+}
+/* =========================================
+   ELIMINATION – GEWINNER
+   ========================================= */
+
+#winnerScreen {
+    display: none;
+
+    width: 100%;
+    min-height: 100vh;
+
+    padding: 28px 20px;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    position: relative;
+}
+
+.winner-back-button {
+    position: absolute;
+
+    top: 18px;
+    left: 18px;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    border: 2px solid rgba(210, 225, 255, 0.85);
+    border-radius: 50%;
+
+    background: rgba(3, 17, 43, 0.82);
+
+    color: white;
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.winner-title {
+    margin: 0 0 22px;
+
+    color: white;
+
+    font-size: 30px;
+    text-align: center;
+}
+
+.winner-image-frame {
+    width: min(78vw, 430px);
+    height: min(52vh, 500px);
+
+    overflow: hidden;
+
+    border: 5px solid rgba(210, 225, 255, 0.85);
+    border-radius: 14px;
+
+    background: rgba(2, 12, 32, 0.9);
+}
+
+#winnerImage {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+.winner-name {
+    margin-top: 16px;
+
+    color: white;
+
+    font-size: 22px;
+    font-weight: bold;
+
+    text-align: center;
+}
+
+.winner-buttons {
+    width: 100%;
+    max-width: 340px;
+
+    margin-top: 26px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.winner-button {
+    width: 100%;
+    min-height: 50px;
+
+    padding: 10px 18px;
+
+    border: 2px solid rgba(210, 225, 255, 0.85);
+    border-radius: 26px;
+
+    background: rgba(3, 17, 43, 0.86);
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.winner-button:active,
+.winner-back-button:active {
+    background: rgba(210, 225, 255, 0.18);
+}
+
+.secondary-winner-button {
+    font-size: 14px;
+}
+
+
+/* Gewinnerseite im Querformat */
+
+@media (orientation: landscape) {
+
+    #winnerScreen {
+        padding: 18px 80px;
+    }
+
+    .winner-title {
+        margin-bottom: 12px;
+        font-size: 25px;
+    }
+
+    .winner-image-frame {
+        width: min(38vw, 420px);
+        height: min(55vh, 390px);
+    }
+
+    .winner-name {
+        margin-top: 10px;
+        font-size: 19px;
+    }
+
+    .winner-buttons {
+        margin-top: 14px;
+        max-width: 320px;
+    }
+
+    .winner-button {
+        min-height: 42px;
+    }
 }

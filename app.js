@@ -1,17 +1,47 @@
+/* =========================================
+   ELEMENTE
+   ========================================= */
+
+const mainMenu =
+    document.getElementById("mainMenu");
+
+const normalModeButton =
+    document.getElementById("normalModeButton");
+
+const eliminationModeButton =
+    document.getElementById("eliminationModeButton");
+
+const manageThemesButton =
+    document.getElementById("manageThemesButton");
+
+
+const themeSelection =
+    document.getElementById("themeSelection");
+
+const selectionBackButton =
+    document.getElementById("selectionBackButton");
+
+const selectionTitle =
+    document.getElementById("selectionTitle");
+
+const themeGrid =
+    document.getElementById("themeGrid");
+
+
+const themeManagement =
+    document.getElementById("themeManagement");
+
+const managementBackButton =
+    document.getElementById("managementBackButton");
+
+const managementThemeGrid =
+    document.getElementById("managementThemeGrid");
+
 const addThemeButton =
     document.getElementById("addThemeButton");
 
 const folderInput =
     document.getElementById("folderInput");
-
-const homeScreen =
-    document.getElementById("homeScreen");
-
-const topbar =
-    document.querySelector(".topbar");
-
-const themeGrid =
-    document.getElementById("themeGrid");
 
 
 const gameScreen =
@@ -20,13 +50,11 @@ const gameScreen =
 const menuButton =
     document.getElementById("menuButton");
 
-
 const topGameImage =
     document.getElementById("topGameImage");
 
 const bottomGameImage =
     document.getElementById("bottomGameImage");
-
 
 const topInfoButton =
     document.getElementById("topInfoButton");
@@ -34,13 +62,11 @@ const topInfoButton =
 const bottomInfoButton =
     document.getElementById("bottomInfoButton");
 
-
 const topImageInfo =
     document.getElementById("topImageInfo");
 
 const bottomImageInfo =
     document.getElementById("bottomImageInfo");
-
 
 const topImageArea =
     document.querySelector(".top-image");
@@ -49,36 +75,58 @@ const bottomImageArea =
     document.querySelector(".bottom-image");
 
 
-// ========================================
-// ALLGEMEINE VARIABLEN
-// ========================================
+/* Gewinnerseite */
+
+const winnerScreen =
+    document.getElementById("winnerScreen");
+
+const winnerImage =
+    document.getElementById("winnerImage");
+
+const winnerName =
+    document.getElementById("winnerName");
+
+const playAgainButton =
+    document.getElementById("playAgainButton");
+
+const winnerThemesButton =
+    document.getElementById("winnerThemesButton");
+
+const winnerBackButton =
+    document.getElementById("winnerBackButton");
+
+
+/* =========================================
+   VARIABLEN
+   ========================================= */
 
 let themes = [];
 
 let currentTheme = null;
-
-
-/*
-    Hier merken wir uns die zuletzt
-    gezeigten Bilder.
-
-    Ungefähr das letzte Drittel des
-    Bildpools wird vorübergehend gesperrt.
-*/
+let selectedMode = null;
 
 let recentImages = [];
-
 
 let roundChanging = false;
 
 
-// ========================================
-// DATENBANK
-// ========================================
+/* Elimination */
+
+let eliminationOrder = [];
+
+let eliminationNextIndex = 0;
+
+let topEliminationImage = null;
+let bottomEliminationImage = null;
+
 
 const databasePromise =
     openDatabase();
 
+
+/* =========================================
+   DATENBANK
+   ========================================= */
 
 function openDatabase() {
 
@@ -110,9 +158,7 @@ function openDatabase() {
                             keyPath: "name"
                         }
                     );
-
                 }
-
             };
 
 
@@ -122,7 +168,6 @@ function openDatabase() {
                 resolve(
                     event.target.result
                 );
-
             };
 
 
@@ -132,123 +177,104 @@ function openDatabase() {
                 reject(
                     request.error
                 );
-
             };
-
     });
-
 }
 
 
-// ========================================
-// THEMA SPEICHERN
-// ========================================
-
-async function saveThemeToDatabase(themeData) {
+async function saveThemeToDatabase(
+    themeData
+) {
 
     const database =
         await databasePromise;
 
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(
+        function (resolve, reject) {
 
-        const transaction =
-            database.transaction(
-                "themes",
-                "readwrite"
-            );
-
-
-        const store =
-            transaction.objectStore(
-                "themes"
-            );
-
-
-        const request =
-            store.put(
-                themeData
-            );
-
-
-        request.onsuccess =
-            function () {
-
-                resolve();
-
-            };
-
-
-        request.onerror =
-            function () {
-
-                reject(
-                    request.error
+            const transaction =
+                database.transaction(
+                    "themes",
+                    "readwrite"
                 );
 
-            };
+            const store =
+                transaction.objectStore(
+                    "themes"
+                );
 
-    });
+            const request =
+                store.put(
+                    themeData
+                );
 
+
+            request.onsuccess =
+                function () {
+
+                    resolve();
+                };
+
+
+            request.onerror =
+                function () {
+
+                    reject(
+                        request.error
+                    );
+                };
+        }
+    );
 }
 
 
-// ========================================
-// THEMA LÖSCHEN
-// ========================================
-
-async function deleteThemeFromDatabase(themeName) {
+async function deleteThemeFromDatabase(
+    themeName
+) {
 
     const database =
         await databasePromise;
 
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(
+        function (resolve, reject) {
 
-        const transaction =
-            database.transaction(
-                "themes",
-                "readwrite"
-            );
-
-
-        const store =
-            transaction.objectStore(
-                "themes"
-            );
-
-
-        const request =
-            store.delete(
-                themeName
-            );
-
-
-        request.onsuccess =
-            function () {
-
-                resolve();
-
-            };
-
-
-        request.onerror =
-            function () {
-
-                reject(
-                    request.error
+            const transaction =
+                database.transaction(
+                    "themes",
+                    "readwrite"
                 );
 
-            };
+            const store =
+                transaction.objectStore(
+                    "themes"
+                );
 
-    });
+            const request =
+                store.delete(
+                    themeName
+                );
 
+
+            request.onsuccess =
+                function () {
+
+                    resolve();
+                };
+
+
+            request.onerror =
+                function () {
+
+                    reject(
+                        request.error
+                    );
+                };
+        }
+    );
 }
 
-
-// ========================================
-// ALLE THEMEN LADEN
-// ========================================
 
 async function loadThemesFromDatabase() {
 
@@ -256,101 +282,76 @@ async function loadThemesFromDatabase() {
         await databasePromise;
 
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(
+        function (resolve, reject) {
 
-        const transaction =
-            database.transaction(
-                "themes",
-                "readonly"
-            );
-
-
-        const store =
-            transaction.objectStore(
-                "themes"
-            );
-
-
-        const request =
-            store.getAll();
-
-
-        request.onsuccess =
-            function () {
-
-                resolve(
-                    request.result
+            const transaction =
+                database.transaction(
+                    "themes",
+                    "readonly"
                 );
 
-            };
-
-
-        request.onerror =
-            function () {
-
-                reject(
-                    request.error
+            const store =
+                transaction.objectStore(
+                    "themes"
                 );
 
-            };
+            const request =
+                store.getAll();
 
-    });
 
+            request.onsuccess =
+                function () {
+
+                    resolve(
+                        request.result
+                    );
+                };
+
+
+            request.onerror =
+                function () {
+
+                    reject(
+                        request.error
+                    );
+                };
+        }
+    );
 }
 
 
-// ========================================
-// DATEINAME AUFBEREITEN
-// ========================================
+/* =========================================
+   BILDNAMEN
+   ========================================= */
 
 function cleanImageName(fileName) {
 
     if (!fileName) {
-
         return "";
-
     }
-
-
-    /*
-        Entfernt die Dateiendung.
-
-        Beispiel:
-
-        Mexikanischer Wolf.jpg
-
-        wird zu:
-
-        Mexikanischer Wolf
-    */
 
     return fileName.replace(
         /\.[^/.]+$/,
         ""
     );
-
 }
 
 
-// ========================================
-// GESPEICHERTE DATEN VORBEREITEN
-// ========================================
+/* =========================================
+   THEMEN VORBEREITEN
+   ========================================= */
 
-function prepareThemeForUse(storedTheme) {
+function prepareThemeForUse(
+    storedTheme
+) {
 
     const preparedImages =
         storedTheme.images.map(
-            function (storedImage, index) {
-
-
-                /*
-                    NEUES FORMAT
-
-                    {
-                        file: Bilddatei,
-                        name: "Jaguar"
-                    }
-                */
+            function (
+                storedImage,
+                index
+            ) {
 
                 if (
                     storedImage &&
@@ -369,22 +370,11 @@ function prepareThemeForUse(storedTheme) {
                             cleanImageName(
                                 storedImage.file.name
                             ) ||
-                            "Bild " + (index + 1)
-
+                            "Bild " +
+                            (index + 1)
                     };
-
                 }
 
-
-                /*
-                    ALTES FORMAT
-
-                    Alte Themen enthalten
-                    nur die Bilddatei.
-
-                    Dadurch bleiben sie
-                    weiterhin spielbar.
-                */
 
                 return {
 
@@ -397,10 +387,9 @@ function prepareThemeForUse(storedTheme) {
                         cleanImageName(
                             storedImage.name
                         ) ||
-                        "Bild " + (index + 1)
-
+                        "Bild " +
+                        (index + 1)
                 };
-
             }
         );
 
@@ -417,15 +406,9 @@ function prepareThemeForUse(storedTheme) {
 
         images:
             preparedImages
-
     };
-
 }
 
-
-// ========================================
-// THEMEN NEU LADEN
-// ========================================
 
 async function reloadThemes() {
 
@@ -440,19 +423,14 @@ async function reloadThemes() {
                 return prepareThemeForUse(
                     storedTheme
                 );
-
             }
         );
 
 
-    renderThemes();
-
+    renderThemeSelection();
+    renderThemeManagement();
 }
 
-
-// ========================================
-// APP-START
-// ========================================
 
 async function loadSavedThemes() {
 
@@ -460,30 +438,163 @@ async function loadSavedThemes() {
 
         await reloadThemes();
 
-    }
-
-    catch (error) {
+    } catch (error) {
 
         console.error(
             "Themen konnten nicht geladen werden:",
             error
         );
-
     }
-
 }
 
 
-// ========================================
-// ORDNER AUSWÄHLEN
-// ========================================
+/* =========================================
+   SEITEN
+   ========================================= */
+
+function hideAllScreens() {
+
+    mainMenu.style.display =
+        "none";
+
+    themeSelection.style.display =
+        "none";
+
+    themeManagement.style.display =
+        "none";
+
+    gameScreen.style.display =
+        "none";
+
+    winnerScreen.style.display =
+        "none";
+
+
+    gameScreen.classList.remove(
+        "game-visible"
+    );
+}
+
+
+function showMainMenu() {
+
+    hideAllScreens();
+
+    mainMenu.style.display =
+        "flex";
+
+
+    selectedMode = null;
+    currentTheme = null;
+
+    recentImages = [];
+
+    roundChanging = false;
+
+    resetElimination();
+}
+
+
+function showThemeSelection(mode) {
+
+    selectedMode =
+        mode;
+
+    hideAllScreens();
+
+    themeSelection.style.display =
+        "block";
+
+
+    if (mode === "normal") {
+
+        selectionTitle.textContent =
+            "Das oder Das";
+
+    } else {
+
+        selectionTitle.textContent =
+            "Elimination";
+    }
+
+
+    renderThemeSelection();
+}
+
+
+function showThemeManagement() {
+
+    hideAllScreens();
+
+    themeManagement.style.display =
+        "block";
+
+    renderThemeManagement();
+}
+
+
+/* =========================================
+   HAUPTMENÜ
+   ========================================= */
+
+normalModeButton.addEventListener(
+    "click",
+    function () {
+
+        showThemeSelection(
+            "normal"
+        );
+    }
+);
+
+
+eliminationModeButton.addEventListener(
+    "click",
+    function () {
+
+        showThemeSelection(
+            "elimination"
+        );
+    }
+);
+
+
+manageThemesButton.addEventListener(
+    "click",
+    function () {
+
+        showThemeManagement();
+    }
+);
+
+
+selectionBackButton.addEventListener(
+    "click",
+    function () {
+
+        showMainMenu();
+    }
+);
+
+
+managementBackButton.addEventListener(
+    "click",
+    function () {
+
+        showMainMenu();
+    }
+);
+
+
+/* =========================================
+   NEUES THEMA
+   ========================================= */
 
 addThemeButton.addEventListener(
     "click",
     function () {
 
         folderInput.click();
-
     }
 );
 
@@ -499,15 +610,9 @@ folderInput.addEventListener(
 
 
         if (files.length === 0) {
-
             return;
-
         }
 
-
-        // --------------------------------
-        // ORDNERNAME = THEMENNAME
-        // --------------------------------
 
         const firstPath =
             files[0].webkitRelativePath;
@@ -517,10 +622,6 @@ folderInput.addEventListener(
             firstPath.split("/")[0];
 
 
-        // --------------------------------
-        // NUR BILDDATEIEN
-        // --------------------------------
-
         const imageFiles =
             files.filter(
                 function (file) {
@@ -528,14 +629,9 @@ folderInput.addEventListener(
                     return file.type.startsWith(
                         "image/"
                     );
-
                 }
             );
 
-
-        // --------------------------------
-        // COVER SUCHEN
-        // --------------------------------
 
         const coverFile =
             imageFiles.find(
@@ -551,28 +647,19 @@ folderInput.addEventListener(
                         name === "cover.png" ||
                         name === "cover.webp"
                     );
-
                 }
             );
 
-
-        // --------------------------------
-        // SPIELBILDER
-        // --------------------------------
 
         const gameFiles =
             imageFiles.filter(
                 function (file) {
 
-                    return file !== coverFile;
-
+                    return file !==
+                        coverFile;
                 }
             );
 
-
-        // --------------------------------
-        // PRÜFUNGEN
-        // --------------------------------
 
         if (!coverFile) {
 
@@ -580,10 +667,10 @@ folderInput.addEventListener(
                 "Der Ordner braucht ein Titelbild namens cover.jpg, cover.jpeg, cover.png oder cover.webp."
             );
 
-            folderInput.value = "";
+            folderInput.value =
+                "";
 
             return;
-
         }
 
 
@@ -593,16 +680,12 @@ folderInput.addEventListener(
                 "Das Thema braucht mindestens zwei Spielbilder."
             );
 
-            folderInput.value = "";
+            folderInput.value =
+                "";
 
             return;
-
         }
 
-
-        // --------------------------------
-        // BILDER + DATEINAMEN SPEICHERN
-        // --------------------------------
 
         const storedGameImages =
             gameFiles.map(
@@ -617,9 +700,7 @@ folderInput.addEventListener(
                             cleanImageName(
                                 file.name
                             )
-
                     };
-
                 }
             );
 
@@ -634,7 +715,6 @@ folderInput.addEventListener(
 
             images:
                 storedGameImages
-
         };
 
 
@@ -644,191 +724,46 @@ folderInput.addEventListener(
                 storedTheme
             );
 
-
             await reloadThemes();
 
-        }
-
-        catch (error) {
+        } catch (error) {
 
             console.error(
                 "Thema konnte nicht gespeichert werden:",
                 error
             );
 
-
             alert(
                 "Das Thema konnte nicht gespeichert werden."
             );
-
         }
 
 
-        folderInput.value = "";
-
+        folderInput.value =
+            "";
     }
 );
 
 
-// ========================================
-// STARTSEITE ERSTELLEN
-// ========================================
+/* =========================================
+   THEMENAUSWAHL
+   ========================================= */
 
-function renderThemes() {
+function renderThemeSelection() {
 
-    themeGrid.innerHTML = "";
+    themeGrid.innerHTML =
+        "";
 
 
     themes.forEach(
         function (theme) {
 
             const card =
-                document.createElement(
-                    "div"
+                createThemeCard(
+                    theme,
+                    false
                 );
 
-
-            card.className =
-                "theme-card";
-
-
-            // --------------------------------
-            // TITELBILD
-            // --------------------------------
-
-            const image =
-                document.createElement(
-                    "img"
-                );
-
-
-            image.className =
-                "theme-cover";
-
-
-            image.src =
-                theme.cover;
-
-
-            image.alt =
-                theme.name;
-
-
-            // --------------------------------
-            // THEMENNAME
-            // --------------------------------
-
-            const name =
-                document.createElement(
-                    "div"
-                );
-
-
-            name.className =
-                "theme-name";
-
-
-            name.textContent =
-                theme.name;
-
-
-            // --------------------------------
-            // DREI-PUNKTE-BUTTON
-            // --------------------------------
-
-            const optionsButton =
-                document.createElement(
-                    "button"
-                );
-
-
-            optionsButton.className =
-                "theme-options";
-
-
-            optionsButton.textContent =
-                "⋯";
-
-
-            optionsButton.addEventListener(
-                "click",
-                async function (event) {
-
-                    /*
-                        Verhindert, dass beim
-                        Drücken der drei Punkte
-                        das Thema gestartet wird.
-                    */
-
-                    event.stopPropagation();
-
-
-                    const shouldDelete =
-                        confirm(
-                            'Thema "' +
-                            theme.name +
-                            '" wirklich löschen?'
-                        );
-
-
-                    if (!shouldDelete) {
-
-                        return;
-
-                    }
-
-
-                    try {
-
-                        await deleteThemeFromDatabase(
-                            theme.name
-                        );
-
-
-                        await reloadThemes();
-
-                    }
-
-                    catch (error) {
-
-                        console.error(
-                            "Thema konnte nicht gelöscht werden:",
-                            error
-                        );
-
-
-                        alert(
-                            "Das Thema konnte nicht gelöscht werden."
-                        );
-
-                    }
-
-                }
-            );
-
-
-            // --------------------------------
-            // KARTE ZUSAMMENBAUEN
-            // --------------------------------
-
-            card.appendChild(
-                image
-            );
-
-
-            card.appendChild(
-                name
-            );
-
-
-            card.appendChild(
-                optionsButton
-            );
-
-
-            // --------------------------------
-            // THEMA ÖFFNEN
-            // --------------------------------
 
             card.addEventListener(
                 "click",
@@ -837,7 +772,6 @@ function renderThemes() {
                     openTheme(
                         theme
                     );
-
                 }
             );
 
@@ -845,36 +779,175 @@ function renderThemes() {
             themeGrid.appendChild(
                 card
             );
-
         }
     );
-
 }
 
 
-// ========================================
-// THEMA ÖFFNEN
-// ========================================
+/* =========================================
+   THEMEN VERWALTEN
+   ========================================= */
+
+function renderThemeManagement() {
+
+    managementThemeGrid.innerHTML =
+        "";
+
+
+    themes.forEach(
+        function (theme) {
+
+            const card =
+                createThemeCard(
+                    theme,
+                    true
+                );
+
+
+            managementThemeGrid.appendChild(
+                card
+            );
+        }
+    );
+}
+
+
+/* =========================================
+   THEMENKARTE
+   ========================================= */
+
+function createThemeCard(
+    theme,
+    managementMode
+) {
+
+    const card =
+        document.createElement(
+            "div"
+        );
+
+    card.className =
+        "theme-card";
+
+
+    const image =
+        document.createElement(
+            "img"
+        );
+
+    image.className =
+        "theme-cover";
+
+    image.src =
+        theme.cover;
+
+    image.alt =
+        theme.name;
+
+
+    const name =
+        document.createElement(
+            "div"
+        );
+
+    name.className =
+        "theme-name";
+
+    name.textContent =
+        theme.name;
+
+
+    card.appendChild(
+        image
+    );
+
+    card.appendChild(
+        name
+    );
+
+
+    if (managementMode) {
+
+        const optionsButton =
+            document.createElement(
+                "button"
+            );
+
+        optionsButton.className =
+            "theme-options";
+
+        optionsButton.textContent =
+            "⋯";
+
+
+        optionsButton.addEventListener(
+            "click",
+            async function (event) {
+
+                event.stopPropagation();
+
+
+                const shouldDelete =
+                    confirm(
+                        'Thema "' +
+                        theme.name +
+                        '" wirklich löschen?'
+                    );
+
+
+                if (!shouldDelete) {
+                    return;
+                }
+
+
+                try {
+
+                    await deleteThemeFromDatabase(
+                        theme.name
+                    );
+
+                    await reloadThemes();
+
+                } catch (error) {
+
+                    console.error(
+                        "Thema konnte nicht gelöscht werden:",
+                        error
+                    );
+
+                    alert(
+                        "Das Thema konnte nicht gelöscht werden."
+                    );
+                }
+            }
+        );
+
+
+        card.appendChild(
+            optionsButton
+        );
+    }
+
+
+    return card;
+}
+
+
+/* =========================================
+   THEMA STARTEN
+   ========================================= */
 
 function openTheme(theme) {
 
     currentTheme =
         theme;
 
-
-    /*
-        Verlauf beim Start eines
-        Themas zurücksetzen.
-    */
-
     recentImages =
         [];
 
+    roundChanging =
+        false;
 
-    /*
-        Eventuell noch sichtbare
-        Bildinformationen schließen.
-    */
 
     topImageInfo.classList.remove(
         "visible"
@@ -885,28 +958,71 @@ function openTheme(theme) {
     );
 
 
-    homeScreen.style.display =
-    "none";
+    hideAllScreens();
+
 
     gameScreen.style.display =
-    "block";
+        "block";
+
+    gameScreen.classList.add(
+        "game-visible"
+    );
 
 
-    showRandomPair();
+    if (
+        selectedMode ===
+        "elimination"
+    ) {
 
+        startElimination();
+
+    } else {
+
+        showRandomPair();
+    }
 }
 
 
-// ========================================
-// GRÖSSE DER WIEDERHOLUNGSSPERRE
-// ========================================
+/* =========================================
+   BILDER SETZEN
+   ========================================= */
+
+function setTopImage(image) {
+
+    topGameImage.src =
+        image.url;
+
+    topGameImage.dataset.imageName =
+        image.name;
+
+    topImageInfo.classList.remove(
+        "visible"
+    );
+}
+
+
+function setBottomImage(image) {
+
+    bottomGameImage.src =
+        image.url;
+
+    bottomGameImage.dataset.imageName =
+        image.name;
+
+    bottomImageInfo.classList.remove(
+        "visible"
+    );
+}
+
+
+/* =========================================
+   DAS ODER DAS – ZUFALL
+   ========================================= */
 
 function getHistoryLimit() {
 
     if (!currentTheme) {
-
         return 0;
-
     }
 
 
@@ -914,27 +1030,11 @@ function getHistoryLimit() {
         currentTheme.images.length;
 
 
-    /*
-        Ungefähr ein Drittel.
-
-        Beispiele:
-
-        20 Bilder  -> 7
-        30 Bilder  -> 10
-        54 Bilder  -> 18
-        100 Bilder -> 34
-    */
-
     let limit =
         Math.ceil(
             imageCount / 3
         );
 
-
-    /*
-        Mindestens zwei Bilder müssen
-        immer außerhalb der Sperre bleiben.
-    */
 
     limit =
         Math.min(
@@ -947,13 +1047,8 @@ function getHistoryLimit() {
         0,
         limit
     );
-
 }
 
-
-// ========================================
-// BILD ZUM VERLAUF HINZUFÜGEN
-// ========================================
 
 function addImageToHistory(image) {
 
@@ -966,36 +1061,21 @@ function addImageToHistory(image) {
         getHistoryLimit();
 
 
-    /*
-        Nur die letzten X Bilder
-        in der Sperrliste behalten.
-    */
-
     while (
         recentImages.length >
         historyLimit
     ) {
 
         recentImages.shift();
-
     }
-
 }
 
-
-// ========================================
-// ZUFÄLLIGES BILDPAAR
-// ========================================
 
 function showRandomPair() {
 
     const images =
         currentTheme.images;
 
-
-    // ------------------------------------
-    // GESPERRTE BILDER AUSSCHLIESSEN
-    // ------------------------------------
 
     let availableImages =
         images.filter(
@@ -1004,19 +1084,9 @@ function showRandomPair() {
                 return !recentImages.includes(
                     image.url
                 );
-
             }
         );
 
-
-    /*
-        Sicherheitsnetz:
-
-        Falls aus irgendeinem Grund weniger
-        als zwei Bilder verfügbar sind,
-        geben wir die ältesten gesperrten
-        Bilder wieder frei.
-    */
 
     while (
         availableImages.length < 2 &&
@@ -1033,16 +1103,10 @@ function showRandomPair() {
                     return !recentImages.includes(
                         image.url
                     );
-
                 }
             );
-
     }
 
-
-    // ------------------------------------
-    // ERSTES BILD
-    // ------------------------------------
 
     const firstIndex =
         Math.floor(
@@ -1057,19 +1121,12 @@ function showRandomPair() {
         ];
 
 
-    // ------------------------------------
-    // ZWEITES BILD
-    // ------------------------------------
-
     const remainingImages =
         availableImages.filter(
             function (image) {
 
-                return (
-                    image.url !==
-                    firstImage.url
-                );
-
+                return image.url !==
+                    firstImage.url;
             }
         );
 
@@ -1087,72 +1144,35 @@ function showRandomPair() {
         ];
 
 
-    // ------------------------------------
-    // BILDER ANZEIGEN
-    // ------------------------------------
-
-    topGameImage.src =
-        firstImage.url;
-
-
-    bottomGameImage.src =
-        secondImage.url;
-
-
-    // ------------------------------------
-    // BILDNAMEN HINTERLEGEN
-    // ------------------------------------
-
-    topGameImage.dataset.imageName =
-        firstImage.name;
-
-
-    bottomGameImage.dataset.imageName =
-        secondImage.name;
-
-
-    /*
-        Falls bei der vorherigen Runde
-        ein Name sichtbar war, wird er
-        jetzt automatisch geschlossen.
-    */
-
-    topImageInfo.classList.remove(
-        "visible"
+    setTopImage(
+        firstImage
     );
 
-
-    bottomImageInfo.classList.remove(
-        "visible"
+    setBottomImage(
+        secondImage
     );
 
-
-    // ------------------------------------
-    // BILDER IN VERLAUF AUFNEHMEN
-    // ------------------------------------
 
     addImageToHistory(
         firstImage
     );
 
-
     addImageToHistory(
         secondImage
     );
-
 }
 
 
-// ========================================
-// BILD AUSWÄHLEN
-// ========================================
+/* =========================================
+   DAS ODER DAS – AUSWAHL
+   ========================================= */
 
-function selectImage(selectedArea) {
+function selectNormalImage(
+    selectedArea
+) {
 
     if (roundChanging) {
-
         return;
-
     }
 
 
@@ -1160,33 +1180,19 @@ function selectImage(selectedArea) {
         true;
 
 
-    /*
-        Falls ein Info-Name geöffnet ist,
-        schließen wir ihn.
-    */
-
     topImageInfo.classList.remove(
         "visible"
     );
-
 
     bottomImageInfo.classList.remove(
         "visible"
     );
 
 
-    // ------------------------------------
-    // AUSWAHL-RAND
-    // ------------------------------------
-
     selectedArea.classList.add(
         "selected"
     );
 
-
-    /*
-        0,5 Sekunden Auswahl anzeigen.
-    */
 
     setTimeout(
         function () {
@@ -1196,41 +1202,20 @@ function selectImage(selectedArea) {
             );
 
 
-            // ----------------------------
-            // BILDER FAHREN HINAUS
-            // ----------------------------
-
             topImageArea.classList.add(
                 "exit"
             );
-
 
             bottomImageArea.classList.add(
                 "exit"
             );
 
 
-            /*
-                0,35 Sekunden
-                Ausfahranimation.
-            */
-
             setTimeout(
                 function () {
 
-
-                    /*
-                        Danach 0,5 Sekunden
-                        Pause.
-                    */
-
                     setTimeout(
                         function () {
-
-
-                            // ----------------
-                            // NEUES BILDPAAR
-                            // ----------------
 
                             showRandomPair();
 
@@ -1238,7 +1223,6 @@ function selectImage(selectedArea) {
                             topImageArea.classList.remove(
                                 "exit"
                             );
-
 
                             bottomImageArea.classList.remove(
                                 "exit"
@@ -1248,7 +1232,6 @@ function selectImage(selectedArea) {
                             topImageArea.classList.add(
                                 "enter-start"
                             );
-
 
                             bottomImageArea.classList.add(
                                 "enter-start"
@@ -1261,15 +1244,9 @@ function selectImage(selectedArea) {
                                     requestAnimationFrame(
                                         function () {
 
-
-                                            // ----------------
-                                            // BILDER FAHREN REIN
-                                            // ----------------
-
                                             topImageArea.classList.remove(
                                                 "enter-start"
                                             );
-
 
                                             bottomImageArea.classList.remove(
                                                 "enter-start"
@@ -1281,14 +1258,11 @@ function selectImage(selectedArea) {
 
                                                     roundChanging =
                                                         false;
-
                                                 },
                                                 350
                                             );
-
                                         }
                                     );
-
                                 }
                             );
 
@@ -1303,22 +1277,364 @@ function selectImage(selectedArea) {
         },
         500
     );
-
 }
 
 
-// ========================================
-// BILDER ANTIPPEN
-// ========================================
+/* =========================================
+   ELIMINATION
+   ========================================= */
+
+function resetElimination() {
+
+    eliminationOrder =
+        [];
+
+    eliminationNextIndex =
+        0;
+
+    topEliminationImage =
+        null;
+
+    bottomEliminationImage =
+        null;
+}
+
+
+function shuffleImages(images) {
+
+    const shuffled =
+        images.slice();
+
+
+    for (
+        let i =
+            shuffled.length - 1;
+
+        i > 0;
+
+        i--
+    ) {
+
+        const j =
+            Math.floor(
+                Math.random() *
+                (i + 1)
+            );
+
+
+        const temporary =
+            shuffled[i];
+
+
+        shuffled[i] =
+            shuffled[j];
+
+        shuffled[j] =
+            temporary;
+    }
+
+
+    return shuffled;
+}
+
+
+function startElimination() {
+
+    resetElimination();
+
+
+    eliminationOrder =
+        shuffleImages(
+            currentTheme.images
+        );
+
+
+    topEliminationImage =
+        eliminationOrder[0];
+
+    bottomEliminationImage =
+        eliminationOrder[1];
+
+
+    eliminationNextIndex =
+        2;
+
+
+    setTopImage(
+        topEliminationImage
+    );
+
+    setBottomImage(
+        bottomEliminationImage
+    );
+}
+
+
+/* =========================================
+   ELIMINATION – AUSWAHL
+   ========================================= */
+
+function selectElimination(
+    selectedArea
+) {
+
+    if (roundChanging) {
+        return;
+    }
+
+
+    roundChanging =
+        true;
+
+
+    topImageInfo.classList.remove(
+        "visible"
+    );
+
+    bottomImageInfo.classList.remove(
+        "visible"
+    );
+
+
+    selectedArea.classList.add(
+        "selected"
+    );
+
+
+    setTimeout(
+        function () {
+
+            selectedArea.classList.remove(
+                "selected"
+            );
+
+
+            const topWon =
+                selectedArea ===
+                topImageArea;
+
+
+            /*
+               Das ausgewählte Bild ist
+               der endgültige Gewinner.
+            */
+
+            if (
+                eliminationNextIndex >=
+                eliminationOrder.length
+            ) {
+
+                const winner =
+                    topWon
+                        ? topEliminationImage
+                        : bottomEliminationImage;
+
+
+                showEliminationWinner(
+                    winner
+                );
+
+
+                roundChanging =
+                    false;
+
+                return;
+            }
+
+
+            const nextImage =
+                eliminationOrder[
+                    eliminationNextIndex
+                ];
+
+
+            eliminationNextIndex++;
+
+
+            /*
+               OBERES BILD GEWINNT:
+               oben bleibt stehen,
+               unten wird ersetzt.
+            */
+
+            if (topWon) {
+
+                bottomImageArea.classList.add(
+                    "elimination-exit-bottom"
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        bottomEliminationImage =
+                            nextImage;
+
+
+                        setBottomImage(
+                            bottomEliminationImage
+                        );
+
+
+                        bottomImageArea.classList.remove(
+                            "elimination-exit-bottom"
+                        );
+
+
+                        bottomImageArea.classList.add(
+                            "elimination-enter-bottom"
+                        );
+
+
+                        requestAnimationFrame(
+                            function () {
+
+                                requestAnimationFrame(
+                                    function () {
+
+                                        bottomImageArea.classList.remove(
+                                            "elimination-enter-bottom"
+                                        );
+
+
+                                        setTimeout(
+                                            function () {
+
+                                                roundChanging =
+                                                    false;
+                                            },
+                                            350
+                                        );
+                                    }
+                                );
+                            }
+                        );
+
+                    },
+                    350
+                );
+            }
+
+
+            /*
+               UNTERES BILD GEWINNT:
+               unten bleibt stehen,
+               oben wird ersetzt.
+            */
+
+            else {
+
+                topImageArea.classList.add(
+                    "elimination-exit-top"
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        topEliminationImage =
+                            nextImage;
+
+
+                        setTopImage(
+                            topEliminationImage
+                        );
+
+
+                        topImageArea.classList.remove(
+                            "elimination-exit-top"
+                        );
+
+
+                        topImageArea.classList.add(
+                            "elimination-enter-top"
+                        );
+
+
+                        requestAnimationFrame(
+                            function () {
+
+                                requestAnimationFrame(
+                                    function () {
+
+                                        topImageArea.classList.remove(
+                                            "elimination-enter-top"
+                                        );
+
+
+                                        setTimeout(
+                                            function () {
+
+                                                roundChanging =
+                                                    false;
+                                            },
+                                            350
+                                        );
+                                    }
+                                );
+                            }
+                        );
+
+                    },
+                    350
+                );
+            }
+
+        },
+        500
+    );
+}
+
+
+/* =========================================
+   GEWINNER
+   ========================================= */
+
+function showEliminationWinner(
+    winner
+) {
+
+    hideAllScreens();
+
+
+    winnerImage.src =
+        winner.url;
+
+    winnerImage.alt =
+        winner.name;
+
+    winnerName.textContent =
+        winner.name;
+
+
+    winnerScreen.style.display =
+        "flex";
+}
+
+
+/* =========================================
+   SPIELBILDER ANKLICKEN
+   ========================================= */
 
 topImageArea.addEventListener(
     "click",
     function () {
 
-        selectImage(
-            topImageArea
-        );
+        if (
+            selectedMode ===
+            "elimination"
+        ) {
 
+            selectElimination(
+                topImageArea
+            );
+
+        } else {
+
+            selectNormalImage(
+                topImageArea
+            );
+        }
     }
 );
 
@@ -1327,17 +1643,28 @@ bottomImageArea.addEventListener(
     "click",
     function () {
 
-        selectImage(
-            bottomImageArea
-        );
+        if (
+            selectedMode ===
+            "elimination"
+        ) {
 
+            selectElimination(
+                bottomImageArea
+            );
+
+        } else {
+
+            selectNormalImage(
+                bottomImageArea
+            );
+        }
     }
 );
 
 
-// ========================================
-// BILDINFORMATION
-// ========================================
+/* =========================================
+   BILD-INFORMATION
+   ========================================= */
 
 function showImageInfo(
     imageElement,
@@ -1349,9 +1676,7 @@ function showImageInfo(
 
 
     if (!imageName) {
-
         return;
-
     }
 
 
@@ -1359,32 +1684,15 @@ function showImageInfo(
         imageName;
 
 
-    /*
-        Bei erneutem Drücken auf i
-        verschwindet der Name wieder.
-    */
-
     infoElement.classList.toggle(
         "visible"
     );
-
 }
 
-
-// ========================================
-// OBERER INFO-BUTTON
-// ========================================
 
 topInfoButton.addEventListener(
     "click",
     function (event) {
-
-        /*
-            Sehr wichtig:
-
-            Der Klick auf i darf NICHT
-            gleichzeitig das Bild auswählen.
-        */
 
         event.stopPropagation();
 
@@ -1393,14 +1701,9 @@ topInfoButton.addEventListener(
             topGameImage,
             topImageInfo
         );
-
     }
 );
 
-
-// ========================================
-// UNTERER INFO-BUTTON
-// ========================================
 
 bottomInfoButton.addEventListener(
     "click",
@@ -1413,57 +1716,141 @@ bottomInfoButton.addEventListener(
             bottomGameImage,
             bottomImageInfo
         );
-
     }
 );
 
 
-// ========================================
-// HAUPTMENÜ
-// ========================================
+/* =========================================
+   SPIEL VERLASSEN
+   ========================================= */
 
 menuButton.addEventListener(
     "click",
     function () {
 
-    gameScreen.style.display =
-    "none";
-
-    homeScreen.style.display =
-    "block";
-
-
         currentTheme =
             null;
 
-
         recentImages =
             [];
+
+        roundChanging =
+            false;
+
+
+        resetElimination();
 
 
         topImageInfo.classList.remove(
             "visible"
         );
 
-
         bottomImageInfo.classList.remove(
             "visible"
         );
 
+
+        if (selectedMode) {
+
+            showThemeSelection(
+                selectedMode
+            );
+
+        } else {
+
+            showMainMenu();
+        }
     }
 );
 
 
-// ========================================
-// APP STARTEN
-// ========================================
+/* =========================================
+   GEWINNERSEITE – BUTTONS
+   ========================================= */
+
+playAgainButton.addEventListener(
+    "click",
+    function () {
+
+        if (!currentTheme) {
+            return;
+        }
+
+
+        hideAllScreens();
+
+
+        gameScreen.style.display =
+            "block";
+
+        gameScreen.classList.add(
+            "game-visible"
+        );
+
+
+        roundChanging =
+            false;
+
+
+        startElimination();
+    }
+);
+
+
+winnerThemesButton.addEventListener(
+    "click",
+    function () {
+
+        currentTheme =
+            null;
+
+        roundChanging =
+            false;
+
+
+        resetElimination();
+
+
+        showThemeSelection(
+            "elimination"
+        );
+    }
+);
+
+
+winnerBackButton.addEventListener(
+    "click",
+    function () {
+
+        currentTheme =
+            null;
+
+        roundChanging =
+            false;
+
+
+        resetElimination();
+
+
+        showThemeSelection(
+            "elimination"
+        );
+    }
+);
+
+
+/* =========================================
+   START
+   ========================================= */
+
+showMainMenu();
 
 loadSavedThemes();
 
 
-// ========================================
-// OFFLINE-SERVICE-WORKER
-// ========================================
+/* =========================================
+   OFFLINE-MODUS
+   ========================================= */
 
 if ("serviceWorker" in navigator) {
 
@@ -1481,7 +1868,6 @@ if ("serviceWorker" in navigator) {
                         console.log(
                             "Offline-Modus ist bereit."
                         );
-
                     }
                 )
                 .catch(
@@ -1491,11 +1877,8 @@ if ("serviceWorker" in navigator) {
                             "Service Worker konnte nicht gestartet werden:",
                             error
                         );
-
                     }
                 );
-
         }
     );
-
 }

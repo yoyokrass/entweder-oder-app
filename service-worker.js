@@ -1,4 +1,4 @@
-const CACHE_NAME = "das-oder-das-v2";
+const CACHE_NAME = "das-oder-das-v3";
 
 const APP_FILES = [
     "./",

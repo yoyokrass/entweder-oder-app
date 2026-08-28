@@ -19,19 +19,102 @@
 
 <body>
 
-    <!-- =========================
-         STARTSEITE
-         ========================= -->
 
-    <div id="homeScreen">
+    <!-- =====================================
+         HAUPTMENÜ
+         ===================================== -->
 
-        <header class="topbar">
+    <section id="mainMenu">
 
-            <img
-                class="home-logo"
-                src="design/logo.png"
-                alt="Das oder Das"
-            >
+        <img
+            class="main-logo"
+            src="design/logo.png"
+            alt="Das oder Das"
+        >
+
+        <div class="main-menu-buttons">
+
+            <button
+                id="normalModeButton"
+                class="main-menu-button"
+                type="button">
+                Das oder Das
+            </button>
+
+            <button
+                id="eliminationModeButton"
+                class="main-menu-button"
+                type="button">
+                Elimination
+            </button>
+
+            <button
+                id="manageThemesButton"
+                class="main-menu-button secondary-button"
+                type="button">
+                Themen verwalten
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =====================================
+         THEMENAUSWAHL
+         ===================================== -->
+
+    <section id="themeSelection">
+
+        <header class="selection-header">
+
+            <button
+                id="selectionBackButton"
+                class="back-button"
+                type="button"
+                aria-label="Zurück">
+                ←
+            </button>
+
+            <h1 id="selectionTitle">
+                Thema wählen
+            </h1>
+
+        </header>
+
+        <main
+            class="theme-grid"
+            id="themeGrid">
+        </main>
+
+    </section>
+
+
+
+    <!-- =====================================
+         THEMEN VERWALTEN
+         ===================================== -->
+
+    <section id="themeManagement">
+
+        <header class="selection-header">
+
+            <button
+                id="managementBackButton"
+                class="back-button"
+                type="button"
+                aria-label="Zurück">
+                ←
+            </button>
+
+            <h1>
+                Themen verwalten
+            </h1>
+
+        </header>
+
+        <div class="add-theme-area">
 
             <button
                 id="addThemeButton"
@@ -47,25 +130,24 @@
                 hidden
             >
 
-        </header>
-
+        </div>
 
         <main
             class="theme-grid"
-            id="themeGrid">
+            id="managementThemeGrid">
         </main>
 
-    </div>
+    </section>
 
 
-    <!-- =========================
-         SPIELANSICHT
-         ========================= -->
+
+    <!-- =====================================
+         SPIEL
+         ===================================== -->
 
     <section id="gameScreen">
 
-
-        <!-- OBERES BILD -->
+        <!-- OBERES / LINKES BILD -->
 
         <div class="game-image top-image">
 
@@ -91,7 +173,7 @@
         </div>
 
 
-        <!-- MITTLERE LEISTE -->
+        <!-- MITTELLEISTE -->
 
         <div class="game-bar">
 
@@ -100,7 +182,7 @@
             <button
                 id="menuButton"
                 type="button"
-                aria-label="Hauptmenü">
+                aria-label="Menü">
                 ☰
             </button>
 
@@ -113,7 +195,7 @@
         </div>
 
 
-        <!-- UNTERES BILD -->
+        <!-- UNTERES / RECHTES BILD -->
 
         <div class="game-image bottom-image">
 
@@ -139,6 +221,62 @@
         </div>
 
     </section>
+
+
+
+    <!-- =====================================
+         ELIMINATION – GEWINNER
+         ===================================== -->
+
+    <section id="winnerScreen">
+
+        <button
+            id="winnerBackButton"
+            class="winner-back-button"
+            type="button"
+            aria-label="Zurück">
+            ←
+        </button>
+
+        <h1 class="winner-title">
+            Gewinner
+        </h1>
+
+        <div class="winner-image-frame">
+
+            <img
+                id="winnerImage"
+                src=""
+                alt="Gewinner"
+            >
+
+        </div>
+
+        <div
+            id="winnerName"
+            class="winner-name">
+        </div>
+
+        <div class="winner-buttons">
+
+            <button
+                id="playAgainButton"
+                class="winner-button"
+                type="button">
+                Nochmal spielen
+            </button>
+
+            <button
+                id="winnerThemesButton"
+                class="winner-button secondary-winner-button"
+                type="button">
+                Zur Themenauswahl
+            </button>
+
+        </div>
+
+    </section>
+
 
 
     <script src="app.js"></script>
